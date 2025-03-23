@@ -1,0 +1,67 @@
+<UserControl
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="clr-namespace:MeldRDP.ViewModels"
+	mc:Ignorable="d"
+	d:DesignWidth="400"
+	d:DesignHeight="150"
+	x:Class="MeldRDP.Views.ConnectionEditorView"
+	x:DataType="vm:ConnectionEditorViewModel"
+>
+	<Design.DataContext>
+		<vm:DesignConnectionEditorViewModel/>
+	</Design.DataContext>
+	<Grid
+		  Margin="10"
+		  RowDefinitions="auto auto auto *"
+		  ColumnDefinitions="auto 10 *"
+	>
+		<TextBlock
+			Grid.Row="0"
+			Grid.Column="0"
+			Text="Id:"
+			Margin="0 5"
+			VerticalAlignment="Center"
+		/>
+		<TextBlock
+			Grid.Row="0"
+			Grid.Column="2"
+			Margin="0 5"
+			VerticalAlignment="Center"
+			Text="{Binding Id}"
+		/>
+
+		<TextBlock
+			Grid.Row="1"
+			Grid.Column="0"
+			Text="Name:"
+			Margin="0 5"
+			VerticalAlignment="Center"
+		/>
+		<TextBox
+			Grid.Row="1"
+			Grid.Column="2"
+			Margin="0 5"
+			VerticalAlignment="Center"
+			Text="{Binding Name}"
+		/>
+
+		<TextBlock
+			Grid.Row="2"
+			Grid.Column="0"
+			Text="Group:"
+			Margin="0 5"
+			VerticalAlignment="Center"
+		/>
+		<TextBox
+			Grid.Row="2"
+			Grid.Column="2"
+			Margin="0 5"
+			VerticalAlignment="Center"
+			Text="{Binding Group}"
+		/>
+
+	</Grid>
+</UserControl>

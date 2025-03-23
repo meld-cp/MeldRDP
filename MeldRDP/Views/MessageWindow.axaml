@@ -1,0 +1,42 @@
+<Window
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="clr-namespace:MeldRDP.ViewModels"
+	mc:Ignorable="d"
+	x:Class="MeldRDP.MessageWindow"
+	Title="{Binding Title}"
+	x:DataType="vm:MessageWindowViewModel"
+	WindowStartupLocation="CenterOwner"
+	Width="400"
+	Height="150"
+	Icon="/Assets/logo.ico"
+>
+	<Design.DataContext>
+		<vm:DesignMessageWindowViewModel/>
+	</Design.DataContext>
+
+	<Grid
+		RowDefinitions="* auto"
+		Margin="10"
+	>
+		<TextBlock
+			Grid.Row="0"
+			Text="{Binding Message}"
+			TextWrapping="Wrap"
+			HorizontalAlignment="Left"
+			VerticalAlignment="Top"
+		/>
+		<StackPanel
+			Grid.Row="1"
+			Orientation="Horizontal"
+			Spacing="10"
+			HorizontalAlignment="Right"
+			VerticalAlignment="Bottom"
+		>
+			<Button Content="Ok" Command="{Binding OkCommand}" MinWidth="80" HorizontalContentAlignment="Center"/>
+			<Button Content="Cancel" Command="{Binding CancelCommand}" MinWidth="80" HorizontalContentAlignment="Center"/>
+		</StackPanel>
+	</Grid>
+</Window>

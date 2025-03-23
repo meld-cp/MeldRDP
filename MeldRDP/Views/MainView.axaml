@@ -1,0 +1,131 @@
+<UserControl
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:vm="clr-namespace:MeldRDP.ViewModels"
+	xmlns:views="clr-namespace:MeldRDP.Views"
+	mc:Ignorable="d"
+	d:DesignWidth="760"
+	d:DesignHeight="600"
+	x:Class="MeldRDP.Views.MainView"
+	x:DataType="vm:MainViewModel"
+	Margin="10"
+	Name="root"
+>
+	<Design.DataContext>
+		<!-- This only sets the DataContext for the previewer in an IDE,
+			to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+		<vm:DesignMainViewModel/>
+	</Design.DataContext>
+
+	<Grid
+		RowDefinitions="auto auto auto * auto"
+		ColumnDefinitions="200 4*"
+	>
+		<TextBlock
+			Grid.Row="0"
+			Grid.Column="0"
+			Grid.ColumnSpan="2"
+			FontWeight="Bold"
+			Text="Meld RDS"
+			VerticalAlignment="Center"
+		/>
+
+		<StackPanel
+			Grid.Row="1"
+			Orientation="Horizontal"
+			Margin="0 10"
+		>
+			<Button
+				Content="Add Connection"
+				Command="{Binding AddConnectionCommand}"
+			/>
+		</StackPanel>
+
+		<TextBlock
+			Grid.Row="2"
+			Grid.Column="0"
+			Text="Connection Groups:"
+			Margin="0 0 0 5"
+		/>
+
+		<ListBox
+			Grid.Row="3"
+			Grid.Column="0"
+			Margin="0 0 10 0"
+			ItemsSource="{Binding EndPointGroups}"
+			DisplayMemberBinding="{Binding Name}"
+			SelectedValue="{Binding SelectedGroup}"
+			SelectionMode="Single"
+		/>
+
+		<StackPanel
+			Grid.Row="4"
+			Grid.Column="0"
+			Grid.ColumnSpan="2"
+			Orientation="Horizontal"
+			Margin="0 10 0 0"
+		>
+			<Button
+				Content="Settings"
+			/>
+		</StackPanel>
+
+		<StackPanel
+			Grid.Row="1"
+			Grid.RowSpan="2"
+			Grid.Column="1"
+		>
+			<TextBlock
+				Text="{Binding SelectedGroupTitle}"
+				Margin="0 0 0 10"
+				FontSize="24"
+			/>
+			<StackPanel
+				Orientation="Horizontal"
+				Spacing="20"
+			>
+				<TextBlock
+					Text="{Binding ConnectionSummary}"
+					VerticalAlignment="Center"
+				/>
+				<TextBox
+					Name="SearchText"
+					Text="{Binding SearchText}"
+					Width="140"
+					Watermark="Search"
+					FontSize="10"
+					MinHeight="0"
+					BorderBrush="Gainsboro"
+				/>
+			</StackPanel>
+		</StackPanel>
+		
+		<ScrollViewer
+			Grid.Row="3"
+			Grid.Column="1"
+			VerticalScrollBarVisibility="Visible"
+		>
+			<ItemsControl
+				Name="ConnectionEndPointsList"
+				ItemsSource="{Binding ConnectionEndPoints}"
+			>
+				<ItemsControl.ItemsPanel>
+					<ItemsPanelTemplate>
+						<WrapPanel
+							HorizontalAlignment="Left"
+						/>
+					</ItemsPanelTemplate>
+				</ItemsControl.ItemsPanel>
+				
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<views:EndPointListItemView/>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</ScrollViewer>
+	</Grid>
+	
+</UserControl>

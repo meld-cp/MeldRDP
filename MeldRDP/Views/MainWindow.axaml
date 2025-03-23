@@ -1,0 +1,18 @@
+<Window
+	xmlns="https://github.com/avaloniaui"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:vm="using:MeldRDP.ViewModels"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:views="clr-namespace:MeldRDP.Views"
+	mc:Ignorable="d"
+	x:Class="MeldRDP.Views.MainWindow"
+	Icon="/Assets/logo.ico"
+	Title="Meld RDP"
+	WindowStartupLocation="CenterScreen"
+	Width="800"
+	Height="450"
+	Activated="Window_Activated"
+>
+	<views:MainView Name="MainView"/>
+</Window>
