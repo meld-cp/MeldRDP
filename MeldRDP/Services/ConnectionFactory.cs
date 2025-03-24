@@ -16,6 +16,7 @@
 				Name: name,
 				RdpFilepath: rdpFilePath,
 				Group: group?.Name ?? "",
+				EnableMouseJiggler: false,
 				MouseJigglerInterval: null
 			);
 		}

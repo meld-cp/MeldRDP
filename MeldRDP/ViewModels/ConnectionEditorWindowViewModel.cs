@@ -48,6 +48,7 @@
 				return epRdp with {
 					Name = this.ConnectionEditorViewModel.Name,
 					Group = this.ConnectionEditorViewModel.Group,
+					EnableMouseJiggler = this.RdpConnectionEditorViewModel?.EnableMouseJiggler ?? false,
 					MouseJigglerInterval = this.RdpConnectionEditorViewModel?.MouseJigglerInterval
 				};
 			}

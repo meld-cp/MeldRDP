@@ -9,21 +9,21 @@
 	public class RdpConnectionEditorViewModel : ViewModelBase {
 
 		[Reactive]
-		public bool KeepSessionAlive { get; set; }
+		public bool EnableMouseJiggler { get; set; }
 
 		[Reactive]
 		public int? MouseJigglerInterval { get; set; }
 
 
 		public RdpConnectionEditorViewModel(RdpFileConnectionEndPoint endpoint) {
-			this.KeepSessionAlive = endpoint.MouseJigglerInterval.HasValue;
+			this.EnableMouseJiggler = endpoint.EnableMouseJiggler;
 			this.MouseJigglerInterval = endpoint.MouseJigglerInterval;
 
-			this.WhenAnyValue(x => x.KeepSessionAlive)
-				.Subscribe(keepAlive => {
-					if (keepAlive && this.MouseJigglerInterval == null) {
+			this.WhenAnyValue(x => x.EnableMouseJiggler)
+				.Subscribe(enableJiggler => {
+					if (enableJiggler && this.MouseJigglerInterval == null) {
 						this.MouseJigglerInterval = 60;
-					} else if (!keepAlive && this.MouseJigglerInterval != null) {
+					} else if (!enableJiggler && this.MouseJigglerInterval != null) {
 						this.MouseJigglerInterval = null;
 					}
 				})
@@ -31,10 +31,10 @@
 
 			this.WhenAnyValue(x => x.MouseJigglerInterval)
 				.Subscribe(interval => {
-					if (interval == null && this.KeepSessionAlive) {
-						this.KeepSessionAlive = false;
-					} else if (interval != null && !this.KeepSessionAlive) {
-						this.KeepSessionAlive = true;
+					if (interval == null && this.EnableMouseJiggler) {
+						this.EnableMouseJiggler = false;
+					} else if (interval != null && !this.EnableMouseJiggler) {
+						this.EnableMouseJiggler = true;
 					}
 				})
 			;

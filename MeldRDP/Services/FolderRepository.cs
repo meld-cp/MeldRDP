@@ -38,6 +38,7 @@
 
 			rdpFile.SetValue(KnownRdpFormatKeys.MeldName, rdpEndPoint.Name);
 			rdpFile.SetValue(KnownRdpFormatKeys.MeldGroup, rdpEndPoint.Group);
+			rdpFile.SetValue(KnownRdpFormatKeys.EnableMouseJiggler, rdpEndPoint.EnableMouseJiggler ? 1 : 0);
 			rdpFile.SetValue(KnownRdpFormatKeys.MouseJigglerInterval, rdpEndPoint.MouseJigglerInterval);
 
 			var destPath = BuildDataConnectionPath(endPoint);
@@ -81,6 +82,7 @@
 					Name: rdpFile.GetStringValue(KnownRdpFormatKeys.MeldName) ?? "",
 					RdpFilepath: rdpFile.Path,
 					Group: rdpFile.GetStringValue(KnownRdpFormatKeys.MeldGroup) ?? "",
+					EnableMouseJiggler: rdpFile.GetIntValue(KnownRdpFormatKeys.EnableMouseJiggler) == 1,
 					MouseJigglerInterval: rdpFile.GetIntValue(KnownRdpFormatKeys.MouseJigglerInterval)
 				);
 

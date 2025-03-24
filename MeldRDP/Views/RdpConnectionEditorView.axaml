@@ -15,8 +15,8 @@
 
 	>
 		<CheckBox
-			Content="Keep Session Alive"
-			IsChecked="{Binding KeepSessionAlive}"
+			Content="Enable Mouse Jiggler"
+			IsChecked="{Binding EnableMouseJiggler}"
 		/>
 
 		<StackPanel

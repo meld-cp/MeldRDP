@@ -4,6 +4,7 @@
 		string Name,
 		string RdpFilepath,
 		string Group,
-		int? MouseJigglerInterval
+		bool EnableMouseJiggler = false,
+		int? MouseJigglerInterval = null
 	) : IConnectionEndPoint;
 }

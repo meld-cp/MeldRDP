@@ -9,6 +9,7 @@
 	/// </summary>
 	public class RdpExMstscService : IRdpMstscService {
 		//See: https://github.com/Devolutions/MsRdpEx
+		//See: https://github.com/Devolutions/MsRdpEx/pull/82
 
 		private readonly string binPath;
 
