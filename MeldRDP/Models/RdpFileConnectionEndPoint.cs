@@ -5,6 +5,8 @@
 		string RdpFilepath,
 		string Group,
 		bool EnableMouseJiggler = false,
-		int? MouseJigglerInterval = null
+		int? MouseJigglerInterval = null,
+		int? SelectedMonitorsFromId = null,
+		int? SelectedMonitorsSpanCount = null
 	) : IConnectionEndPoint;
 }

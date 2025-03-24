@@ -5,8 +5,6 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="clr-namespace:MeldRDP.ViewModels"
 	mc:Ignorable="d"
-	d:DesignWidth="400"
-	d:DesignHeight="150"
 	x:Class="MeldRDP.Views.RdpConnectionEditorView"
 	x:DataType="vm:RdpConnectionEditorViewModel"
 >
@@ -24,12 +22,13 @@
 			Spacing="10"
 		>
 			<TextBlock
+				Width="200"
 				Text="Mouse Jiggler Interval:"
 				VerticalAlignment="Center"
+				TextAlignment="Right"
 			/>
 			<NumericUpDown
 				Minimum="30"
-				Text="Mouse"
 				Value="{Binding MouseJigglerInterval}"
 				HorizontalAlignment="Left"
 				Width="130"
@@ -40,6 +39,55 @@
 			<TextBlock
 				Text="seconds"
 				VerticalAlignment="Center"
+			/>
+		</StackPanel>
+
+		<TextBlock
+			Margin="0 10 0 0"
+			Text="Span Monitors"
+			VerticalAlignment="Center"
+		/>
+		<StackPanel
+			Orientation="Horizontal"
+			Spacing="10"
+			Margin="0 0 0 5"
+		>
+			<TextBlock
+				Width="200"
+				Text="From Display Id:"
+				VerticalAlignment="Center"
+				TextAlignment="Right"
+			/>
+			<NumericUpDown
+				Minimum="0"
+				Maximum="16"
+				Value="{Binding SelectedMonitorsFromId}"
+				HorizontalAlignment="Left"
+				Width="130"
+				TextAlignment="Center"
+				Increment="1"
+				FormatString="N0"
+			/>
+		</StackPanel>
+		<StackPanel
+			Orientation="Horizontal"
+			Spacing="10"
+		>
+			<TextBlock
+				Width="200"
+				Text="Span Count:"
+				VerticalAlignment="Center"
+				TextAlignment="Right"
+			/>
+			<NumericUpDown
+				Minimum="1"
+				Maximum="16"
+				Value="{Binding SelectedMonitorsSpanCount}"
+				HorizontalAlignment="Left"
+				Width="130"
+				TextAlignment="Center"
+				Increment="1"
+				FormatString="N0"
 			/>
 		</StackPanel>
 	</StackPanel>

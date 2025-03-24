@@ -41,10 +41,79 @@
 			rdpFile.SetValue(KnownRdpFormatKeys.EnableMouseJiggler, rdpEndPoint.EnableMouseJiggler ? 1 : 0);
 			rdpFile.SetValue(KnownRdpFormatKeys.MouseJigglerInterval, rdpEndPoint.MouseJigglerInterval);
 
+			rdpFile.SetValue(
+				KnownRdpFormatKeys.SelectedMonitors,
+				EncodeSelectedMonitors(rdpEndPoint.SelectedMonitorsFromId, rdpEndPoint.SelectedMonitorsSpanCount)
+			);
+
+
 			var destPath = BuildDataConnectionPath(endPoint);
 
 			rdpFile.SaveAs(destPath);
 
+		}
+
+		private (int? SelectedMonitorsFromId, int? SelectedMonitorsSpanCount) DecodeSelectedMonitors(string? rdpFileSelectedMonitorsValue) {
+
+			if (string.IsNullOrEmpty(rdpFileSelectedMonitorsValue)) {
+				return (null, null);
+			}
+
+			int[] selectedMonitors = rdpFileSelectedMonitorsValue
+				.Split(',')
+				.Select(x => {
+					if (int.TryParse(x, out int i)) {
+						return i;
+					} else {
+						return (int?)null;
+					}
+				})
+				.OfType<int>()
+				.Order()
+				.ToArray()
+				?? []
+			;
+
+			if (selectedMonitors.Length > 0) {
+				int firstMonitor = selectedMonitors[0];
+				int lastMonitor = selectedMonitors[^1];
+				return (
+					SelectedMonitorsFromId: firstMonitor,
+					SelectedMonitorsSpanCount: lastMonitor - firstMonitor + 1
+				);
+			} else {
+				return (null, null);
+			}
+		}
+
+		private string EncodeSelectedMonitors(int? selectedMonitorsFromId, int? selectedMonitorsSpanCount) {
+			if (selectedMonitorsFromId == null || selectedMonitorsSpanCount == null) {
+				return "";
+			}
+			return string.Join(",", Enumerable.Range(selectedMonitorsFromId.Value, selectedMonitorsSpanCount.Value));
+		}
+
+		public RdpFileConnectionEndPoint Load(RdpFormatFile rdpFile) {
+			var id = Path.GetFileNameWithoutExtension(rdpFile.Path)
+				?? throw new Exception("Invalid RDP file path")
+			;
+
+			// decode selected monitors
+			var (selectedMonitorsFromId, selectedMonitorsSpanCount) = DecodeSelectedMonitors(rdpFile.GetStringValue(KnownRdpFormatKeys.SelectedMonitors));
+
+
+			return new RdpFileConnectionEndPoint(
+				Id: id,
+				Name: rdpFile.GetStringValue(KnownRdpFormatKeys.MeldName) ?? "",
+				RdpFilepath: rdpFile.Path,
+				Group: rdpFile.GetStringValue(KnownRdpFormatKeys.MeldGroup) ?? "",
+
+				EnableMouseJiggler: rdpFile.GetIntValue(KnownRdpFormatKeys.EnableMouseJiggler) == 1,
+				MouseJigglerInterval: rdpFile.GetIntValue(KnownRdpFormatKeys.MouseJigglerInterval),
+
+				SelectedMonitorsFromId: selectedMonitorsFromId,
+				SelectedMonitorsSpanCount: selectedMonitorsSpanCount
+			);
 		}
 
 		public IConnectionEndPoint[] FetchAll() {
@@ -69,25 +138,9 @@
 
 			// deserialize data files
 			foreach (var rdpFile in rdpFiles) {
-
 				Debug.Assert(rdpFile != null);
-
-				var id = Path.GetFileNameWithoutExtension(rdpFile.Path);
-				if (id == null) {
-					continue;
-				}
-
-				var rdpEp = new RdpFileConnectionEndPoint(
-					Id: id,
-					Name: rdpFile.GetStringValue(KnownRdpFormatKeys.MeldName) ?? "",
-					RdpFilepath: rdpFile.Path,
-					Group: rdpFile.GetStringValue(KnownRdpFormatKeys.MeldGroup) ?? "",
-					EnableMouseJiggler: rdpFile.GetIntValue(KnownRdpFormatKeys.EnableMouseJiggler) == 1,
-					MouseJigglerInterval: rdpFile.GetIntValue(KnownRdpFormatKeys.MouseJigglerInterval)
-				);
-
+				var rdpEp = Load(rdpFile);
 				result.Add(rdpEp);
-
 			}
 
 			return [.. result];

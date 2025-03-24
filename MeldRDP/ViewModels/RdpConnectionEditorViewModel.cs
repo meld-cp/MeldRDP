@@ -14,10 +14,19 @@
 		[Reactive]
 		public int? MouseJigglerInterval { get; set; }
 
+		[Reactive]
+		public int? SelectedMonitorsFromId { get; set; }
+
+		[Reactive]
+		public int? SelectedMonitorsSpanCount { get; set; }
+
+
 
 		public RdpConnectionEditorViewModel(RdpFileConnectionEndPoint endpoint) {
 			this.EnableMouseJiggler = endpoint.EnableMouseJiggler;
 			this.MouseJigglerInterval = endpoint.MouseJigglerInterval;
+			this.SelectedMonitorsFromId = endpoint.SelectedMonitorsFromId;
+			this.SelectedMonitorsSpanCount = endpoint.SelectedMonitorsSpanCount;
 
 			this.WhenAnyValue(x => x.EnableMouseJiggler)
 				.Subscribe(enableJiggler => {
@@ -35,6 +44,21 @@
 						this.EnableMouseJiggler = false;
 					} else if (interval != null && !this.EnableMouseJiggler) {
 						this.EnableMouseJiggler = true;
+					}
+				})
+			;
+
+			this.WhenAnyValue(x => x.SelectedMonitorsFromId)
+				.Subscribe(fromId => {
+					if (fromId != null && !this.SelectedMonitorsSpanCount.HasValue) {
+						this.SelectedMonitorsSpanCount = 1;
+					}
+				})
+			;
+			this.WhenAnyValue(x => x.SelectedMonitorsSpanCount)
+				.Subscribe(span => {
+					if (span != null && !this.SelectedMonitorsFromId.HasValue) {
+						this.SelectedMonitorsFromId = 0;
 					}
 				})
 			;

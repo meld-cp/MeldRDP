@@ -44,12 +44,14 @@
 		}
 
 		private IConnectionEndPoint BuildConnection() {
-			if (endpoint is RdpFileConnectionEndPoint epRdp) {
+			if (endpoint is RdpFileConnectionEndPoint epRdp && this.RdpConnectionEditorViewModel is RdpConnectionEditorViewModel vm) {
 				return epRdp with {
 					Name = this.ConnectionEditorViewModel.Name,
 					Group = this.ConnectionEditorViewModel.Group,
-					EnableMouseJiggler = this.RdpConnectionEditorViewModel?.EnableMouseJiggler ?? false,
-					MouseJigglerInterval = this.RdpConnectionEditorViewModel?.MouseJigglerInterval
+					EnableMouseJiggler = vm.EnableMouseJiggler,
+					MouseJigglerInterval = vm.MouseJigglerInterval,
+					SelectedMonitorsFromId = vm.SelectedMonitorsFromId,
+					SelectedMonitorsSpanCount = vm.SelectedMonitorsSpanCount
 				};
 			}
 			throw new NotImplementedException();
