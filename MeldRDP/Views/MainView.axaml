@@ -97,7 +97,6 @@
 					Watermark="Search"
 					FontSize="10"
 					MinHeight="0"
-					BorderBrush="Gainsboro"
 				/>
 			</StackPanel>
 		</StackPanel>

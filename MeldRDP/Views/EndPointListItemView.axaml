@@ -16,13 +16,11 @@
 	</Design.DataContext>
 
 	<Button
+		Name="ConnectionButton"
 		Padding="10"
 		Margin="5"
 		VerticalAlignment="Stretch"
 		HorizontalAlignment="Stretch"
-		Background="WhiteSmoke"
-		BorderBrush="Gainsboro"
-		BorderThickness="2"
 		Cursor="Hand"
 		Command="{Binding ConnectCommand}"
 	>

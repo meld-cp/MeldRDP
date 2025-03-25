@@ -4,8 +4,26 @@
 	x:Class="MeldRDP.App"
 	RequestedThemeVariant="Default"
 >
+	<Application.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.ThemeDictionaries>
+				<ResourceDictionary x:Key='Light'>
+					<Thickness x:Key='ConnectionBorderThickness'>2</Thickness>
+				</ResourceDictionary>
+				<ResourceDictionary x:Key='Dark'>
+					<Thickness x:Key='ConnectionBorderThickness'>2</Thickness>
+				</ResourceDictionary>
+			</ResourceDictionary.ThemeDictionaries>
+		</ResourceDictionary>
+	</Application.Resources>
+
 	<!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 	<Application.Styles>
-		<FluentTheme />
+		<FluentTheme/>
+		<Style Selector="Button#ConnectionButton">
+			<Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"/>
+			<Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColor}"/>
+			<Setter Property="BorderThickness" Value="{DynamicResource ConnectionBorderThickness}"/>
+		</Style>
 	</Application.Styles>
 </Application>
