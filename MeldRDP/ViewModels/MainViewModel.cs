@@ -39,6 +39,8 @@
 
 
 		public ICommand AddConnectionCommand { get; }
+		public ICommand RefreshConnectionsCommand { get; }
+
 		public ViewModelActivator Activator { get; } = new();
 
 		private static readonly EndPointGroupViewModel allGroup = new("[All]", true);
@@ -52,18 +54,24 @@
 			this.connectionRepo = connectionRepo;
 
 			this.AddConnectionCommand = ReactiveCommand.Create(this.AddRdpConnection);
+			this.RefreshConnectionsCommand = ReactiveCommand.Create(this.RefreshConnections);
 
 			this.WhenActivated((CompositeDisposable disposables) => {
+
+				this.RefreshConnections();
+
 				this
 					.WhenAnyValue(x => x.SelectedGroup)
 					.Skip(1)
 					.Subscribe(_ => this.RefreshConnections())
 				;
+
 				this
 					.WhenAnyValue(x => x.SearchText)
 					.Skip(1)
 					.Subscribe(_ => this.RefreshConnections())
 				;
+
 			});
 
 		}
