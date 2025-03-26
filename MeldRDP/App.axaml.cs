@@ -3,9 +3,11 @@
 	using System.IO;
 
 	using Avalonia;
+	using Avalonia.Controls;
 	using Avalonia.Controls.ApplicationLifetimes;
 	using Avalonia.Markup.Xaml;
 
+	using MeldRDP.Models;
 	using MeldRDP.Services;
 	using MeldRDP.ViewModels;
 	using MeldRDP.Views;
@@ -33,7 +35,7 @@
 			var dataPath = Path.Combine(appPath, "Data");
 
 			// create services
-			var procMon = new ProcessMonitorService( TimeSpan.FromMilliseconds(500) );
+			var procMon = new ProcessMonitorService(TimeSpan.FromMilliseconds(500));
 			var srvRdp = new RdpExMstscService(procMon, appPath);
 			var connRepo = new FolderRepository(dataPath);
 			this.DesktopRouter = new DesktopRouter(srvRdp: srvRdp, connRepo);
@@ -53,13 +55,24 @@
 				// Apply app settings
 				desktop.MainWindow.Width = appSettings.Width ?? desktop.MainWindow.Width;
 				desktop.MainWindow.Height = appSettings.Height ?? desktop.MainWindow.Height;
+				if (appSettings.IsMaximized) {
+					desktop.MainWindow.WindowState = WindowState.Maximized;
+				}
 
 				// Save app settings on close
 				desktop.MainWindow.Closing += (sender, e) => {
-					var newAppSettings = appSettings with {
-						Width = (int?)desktop.MainWindow.Width,
-						Height = (int?)desktop.MainWindow.Height
-					};
+					AppSettings newAppSettings;
+					if (desktop.MainWindow.WindowState == WindowState.Maximized) {
+						newAppSettings = appSettings with {
+							IsMaximized = true
+						};
+					} else {
+						newAppSettings = appSettings with {
+							IsMaximized = false,
+							Width = (int?)desktop.MainWindow.Width,
+							Height = (int?)desktop.MainWindow.Height
+						};
+					}
 					appSettingsRepo.Save(newAppSettings);
 				};
 
