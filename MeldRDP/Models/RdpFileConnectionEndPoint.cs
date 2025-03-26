@@ -2,6 +2,7 @@
 	public record RdpFileConnectionEndPoint(
 		string Id,
 		string Name,
+		string FullAddress,
 		string RdpFilepath,
 		string Group,
 		bool EnableMouseJiggler = false,

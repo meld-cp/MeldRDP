@@ -127,6 +127,7 @@
 			return new RdpFileConnectionEndPoint(
 				Id: id,
 				Name: rdpFile.GetStringValue(KnownRdpFormatKeys.MeldName) ?? "",
+				FullAddress: rdpFile.GetStringValue(KnownRdpFormatKeys.FullAddress) ?? "",
 				RdpFilepath: rdpFile.Path,
 				Group: rdpFile.GetStringValue(KnownRdpFormatKeys.MeldGroup) ?? "",
 

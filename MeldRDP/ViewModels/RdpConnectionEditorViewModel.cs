@@ -9,6 +9,10 @@
 	public class RdpConnectionEditorViewModel : ViewModelBase {
 
 		[Reactive]
+		public string FullAddress { get; set; }
+
+
+		[Reactive]
 		public bool EnableMouseJiggler { get; set; }
 
 		[Reactive]
@@ -23,6 +27,7 @@
 
 
 		public RdpConnectionEditorViewModel(RdpFileConnectionEndPoint endpoint) {
+			this.FullAddress = endpoint.FullAddress;
 			this.EnableMouseJiggler = endpoint.EnableMouseJiggler;
 			this.MouseJigglerInterval = endpoint.MouseJigglerInterval;
 			this.SelectedMonitorsFromId = endpoint.SelectedMonitorsFromId;

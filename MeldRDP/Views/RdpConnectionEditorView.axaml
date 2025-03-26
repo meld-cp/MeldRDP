@@ -9,10 +9,14 @@
 	x:DataType="vm:RdpConnectionEditorViewModel"
 >
 
-	<StackPanel
-
-	>
+	<StackPanel>
+		<TextBox
+			Watermark="Full Address"
+			UseFloatingWatermark="True"
+			Text="{Binding FullAddress}"
+		/>
 		<CheckBox
+			Margin="0 10 0 0"
 			Content="Enable Mouse Jiggler"
 			IsChecked="{Binding EnableMouseJiggler}"
 		/>

@@ -18,6 +18,7 @@
 			return new RdpFileConnectionEndPoint(
 				Id: id,
 				Name: name,
+				FullAddress: "",
 				RdpFilepath: rdpFilePath,
 				Group: group?.Name ?? "",
 				EnableMouseJiggler: false,
