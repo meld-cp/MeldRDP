@@ -41,6 +41,7 @@
 			rdpFile.SetValue(KnownRdpFormatKeys.EnableMouseJiggler, rdpEndPoint.EnableMouseJiggler ? 1 : 0);
 			rdpFile.SetValue(KnownRdpFormatKeys.MouseJigglerInterval, rdpEndPoint.MouseJigglerInterval);
 
+			rdpFile.SetValue(KnownRdpFormatKeys.UseMultimon, rdpEndPoint.SelectedMonitorsFromId.HasValue ? 1 : 0);
 			rdpFile.SetValue(
 				KnownRdpFormatKeys.SelectedMonitors,
 				EncodeSelectedMonitors(rdpEndPoint.SelectedMonitorsFromId, rdpEndPoint.SelectedMonitorsSpanCount)
