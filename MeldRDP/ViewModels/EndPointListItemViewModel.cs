@@ -22,6 +22,10 @@
 		[Reactive]
 		public string Group { get; set; }
 
+		[Reactive]
+		public string ExtendedInfo { get; set; }
+
+
 		public ICommand ConnectCommand { get; }
 		public ICommand EditCommand { get; }
 
@@ -31,14 +35,16 @@
 		public EndPointListItemViewModel(
 			IRouter router,
 			IConnectionEndPoint endPoint,
+			string extendedInfo,
 			Action? OnEditingCompleteAction
 		) {
 			this.router = router;
 			this.endPoint = endPoint;
 			onEditingCompleteAction = OnEditingCompleteAction;
 
-			this.Id = endPoint.Id.ToString();
+			this.Id = endPoint.Id;
 			this.Name = endPoint.Name;
+			this.ExtendedInfo = extendedInfo;
 			this.Group = endPoint.Group;
 
 			ConnectCommand = ReactiveCommand.Create(Connect);

@@ -6,6 +6,7 @@
 		public DesignEndPointListItemViewModel() : base(
 			router: new NullRouter(),
 			endPoint: new DesignConnectionEndPoint(),
+			extendedInfo: "Extended Info",
 			OnEditingCompleteAction: null
 		) {
 			Name = "Design End Point";

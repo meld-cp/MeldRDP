@@ -80,6 +80,7 @@
 			return new EndPointListItemViewModel(
 				router: this.router,
 				endPoint: endPoint,
+				extendedInfo: endPoint is RdpFileConnectionEndPoint epRdp ? epRdp.FullAddress : "",
 				OnEditingCompleteAction: this.RefreshConnections
 			);
 		}
@@ -136,13 +137,14 @@
 			}
 
 			var groupConnectionViewModels = groupConnections
+				.Select(this.BuildEndPointListItemViewModel)
 				.Where(c =>
 					string.IsNullOrEmpty(this.SearchText)
 					|| c.Name.Contains(this.SearchText, StringComparison.InvariantCultureIgnoreCase)
+					|| c.ExtendedInfo.Contains(this.SearchText, StringComparison.InvariantCultureIgnoreCase)
 					|| c.Group.Contains(this.SearchText, StringComparison.InvariantCultureIgnoreCase)
 					|| c.Id.Contains(this.SearchText, StringComparison.InvariantCultureIgnoreCase)
 				)
-				.Select(this.BuildEndPointListItemViewModel)
 				.ToArray()
 			;
 
