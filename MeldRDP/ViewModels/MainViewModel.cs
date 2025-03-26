@@ -76,7 +76,17 @@
 
 		}
 
+		private EndPointListItemViewModel BuildEndPointListItemViewModel(IConnectionEndPoint endPoint) {
+			return new EndPointListItemViewModel(
+				router: this.router,
+				endPoint: endPoint,
+				OnEditingCompleteAction: this.RefreshConnections
+			);
+		}
+
 		public void RefreshConnections() {
+
+			//System.Diagnostics.Debug.WriteLine("Refreshing connections");
 
 			if (this.EndPointGroups.Count == 0) {
 				this.EndPointGroups.Add(allGroup);
@@ -132,18 +142,15 @@
 					|| c.Group.Contains(this.SearchText, StringComparison.InvariantCultureIgnoreCase)
 					|| c.Id.Contains(this.SearchText, StringComparison.InvariantCultureIgnoreCase)
 				)
-				.Select(x => new EndPointListItemViewModel(
-					router: this.router,
-					endPoint: x,
-					OnEditingCompleteAction: this.RefreshConnections
-				))
+				.Select(this.BuildEndPointListItemViewModel)
+				.ToArray()
 			;
 
 			this.ConnectionEndPoints.Clear();
 			this.ConnectionEndPoints.AddRange(groupConnectionViewModels);
 
-			SelectedGroupTitle = selectedGroup.Name ?? $"Connections: {groupConnections.Length}";
-			ConnectionSummary = $"Connections: {groupConnections.Length}";
+			SelectedGroupTitle = selectedGroup.Name ?? $"Connections: {groupConnectionViewModels.Length}";
+			ConnectionSummary = $"Connections: {groupConnectionViewModels.Length}";
 
 
 		}
@@ -154,12 +161,24 @@
 
 			var con = connectionRepo.Create(name: "", group: group.IsVirtual ? null : group.GetGroup());
 
-			this.RefreshConnections();
+			this.ConnectionEndPoints.Insert(0, BuildEndPointListItemViewModel(con));
 
 			this.router.Edit(
 				endPoint: con,
 				extendedEdit: true,
-				OnEditingCompleteAction: this.RefreshConnections
+				OnEditingCompleteAction: () => {
+					// refresh connections after editing
+					this.RefreshConnections();
+
+					// non-extended edit the connection
+
+					// find con again by id
+					var editedCon = this.ConnectionEndPoints.FirstOrDefault(x => x.Id == con.Id);
+					if (editedCon == null) {
+						return;
+					}
+					editedCon.EditCommand.Execute(null);
+				}
 			);
 		}
 

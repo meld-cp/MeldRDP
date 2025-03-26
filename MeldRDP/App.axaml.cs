@@ -1,4 +1,5 @@
 ﻿namespace MeldRDP {
+	using System;
 	using System.IO;
 
 	using Avalonia;
@@ -32,7 +33,8 @@
 			var dataPath = Path.Combine(appPath, "Data");
 
 			// create services
-			var srvRdp = new RdpExMstscService(appPath);
+			var procMon = new ProcessMonitorService( TimeSpan.FromMilliseconds(500) );
+			var srvRdp = new RdpExMstscService(procMon, appPath);
 			var connRepo = new FolderRepository(dataPath);
 			this.DesktopRouter = new DesktopRouter(srvRdp: srvRdp, connRepo);
 

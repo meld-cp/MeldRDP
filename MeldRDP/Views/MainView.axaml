@@ -109,7 +109,7 @@
 		>
 			<ItemsControl
 				Name="ConnectionEndPointsList"
-				ItemsSource="{Binding ConnectionEndPoints}"
+				ItemsSource="{Binding ConnectionEndPoints, Mode=OneWay}"
 			>
 				<ItemsControl.ItemsPanel>
 					<ItemsPanelTemplate>

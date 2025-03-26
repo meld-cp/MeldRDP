@@ -1,4 +1,5 @@
 ﻿namespace MeldRDP.Services {
+	using System;
 	using System.Diagnostics;
 	using System.IO;
 
@@ -11,9 +12,10 @@
 		//See: https://github.com/Devolutions/MsRdpEx
 		//See: https://github.com/Devolutions/MsRdpEx/pull/82
 
+		private readonly ProcessMonitorService procMon;
 		private readonly string binPath;
 
-		public RdpExMstscService(string basePath) {
+		public RdpExMstscService(ProcessMonitorService procMon, string basePath) {
 			// get bin path
 			this.binPath = Path.Combine(basePath, "mstscex.exe");
 			if (!File.Exists(this.binPath)) {
@@ -25,18 +27,27 @@
 			if (!File.Exists(dllPath)) {
 				throw new System.Exception($"'{dllPath}' not found");
 			}
+
+			this.procMon = procMon;
 		}
 
 		public void CreateRdpFile(string path) {
 			File.WriteAllText(path, "");
 		}
 
-		public void EditRdpFile(string path) {
-			Process.Start(this.binPath, ["/edit", string.Concat('"', path, '"')]);
+		public void EditRdpFile(string path, Action? OnExitAction) {
+			var proc = Process.Start(this.binPath, ["/edit", string.Concat('"', path, '"')]);
+			if (OnExitAction != null) {
+				this.procMon.MonitorOnExit(proc, OnExitAction);
+			}
 		}
 
-		public Process Connect(string path) {
-			return Process.Start(this.binPath, [string.Concat('"', path, '"')]);
+		public Process Connect(string path, Action? OnExitAction) {
+			var proc = Process.Start(this.binPath, [string.Concat('"', path, '"')]);
+			if (OnExitAction != null) {
+				this.procMon.MonitorOnExit(proc, OnExitAction);
+			}
+			return proc;
 		}
 
 	}

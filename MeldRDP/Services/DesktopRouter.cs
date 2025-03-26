@@ -19,7 +19,7 @@
 		public void Connect(IConnectionEndPoint endPoint) {
 
 			if (endPoint is RdpFileConnectionEndPoint epRdp) {
-				_ = srvRdp.Connect(epRdp.RdpFilepath);
+				_ = srvRdp.Connect(epRdp.RdpFilepath, null);
 				return;
 			}
 
@@ -37,6 +37,13 @@
 			}
 		}
 
+		public Action? RunOnMainThread(Action? action) {
+			if (action == null) {
+				return null;
+			}
+			return () => Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(action);
+		}
+
 		public void Edit(
 			IConnectionEndPoint endPoint,
 			bool extendedEdit,
@@ -44,7 +51,7 @@
 		) {
 
 			if (extendedEdit && endPoint is RdpFileConnectionEndPoint epRdp) {
-				srvRdp.EditRdpFile(epRdp.RdpFilepath);
+				srvRdp.EditRdpFile(epRdp.RdpFilepath, RunOnMainThread(OnEditingCompleteAction));
 				return;
 			}
 
