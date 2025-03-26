@@ -47,6 +47,7 @@
 			if (endpoint is RdpFileConnectionEndPoint epRdp && this.RdpConnectionEditorViewModel is RdpConnectionEditorViewModel vm) {
 				return epRdp with {
 					Name = this.ConnectionEditorViewModel.Name,
+					FullAddress = vm.FullAddress,
 					Group = this.ConnectionEditorViewModel.Group,
 					EnableMouseJiggler = vm.EnableMouseJiggler,
 					MouseJigglerInterval = vm.MouseJigglerInterval,

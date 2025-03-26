@@ -56,6 +56,7 @@
 			}
 
 			var rdpFile = new RdpFormatFile(rdpEndPoint.RdpFilepath);
+			rdpFile.SetValue(KnownRdpFormatKeys.FullAddress, rdpEndPoint.FullAddress);
 
 			rdpFile.SetValue(KnownRdpFormatKeys.MeldName, rdpEndPoint.Name);
 			rdpFile.SetValue(KnownRdpFormatKeys.MeldGroup, rdpEndPoint.Group);
