@@ -38,7 +38,7 @@
 			Margin="0 10"
 		>
 			<Button
-				Content="Add Connection"
+				Content="_Add Connection"
 				Command="{Binding AddConnectionCommand}"
 			/>
 		</StackPanel>
@@ -68,7 +68,7 @@
 			Margin="0 10 0 0"
 		>
 			<Button
-				Content="Refresh"
+				Content="_Refresh"
 				Command="{Binding RefreshConnectionsCommand}"
 			/>
 		</StackPanel>
