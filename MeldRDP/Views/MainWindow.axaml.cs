@@ -19,7 +19,17 @@
 				Gesture = new KeyGesture(Key.F5)
 			});
 
+			var command = ReactiveCommand.Create<int>((num) => this.MainView.ViewModel?.TryConnectByNumber(num));
+			for (int i = 0; i < 10; i++) {
+				this.KeyBindings.Add(new KeyBinding() {
+					Command = command,
+					CommandParameter = i,
+					Gesture = new KeyGesture(Key.D0 + i, KeyModifiers.Control)
+				});
+
+			}
 		}
+
 		private void Window_Activated(object? sender, System.EventArgs e) {
 			this.FocusOnSearch();
 		}

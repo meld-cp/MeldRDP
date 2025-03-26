@@ -160,5 +160,29 @@
 				OnEditingCompleteAction: this.RefreshConnections
 			);
 		}
+
+		public void TryConnectByNumber(int number) {
+			if (number < 0 || number > 9) {
+				return;
+			}
+
+			/* Number to index mapping
+			 1 => 0
+			 2 => 1
+			 3 => 2
+			 4 => 3
+			 5 => 4
+			 6 => 5
+			 7 => 6
+			 8 => 7
+			 9 => 8
+			 0 => 9
+			*/
+			var idx = number == 0 ? 9 : number - 1;
+			if (idx < 0 || idx >= this.ConnectionEndPoints.Count) {
+				return;
+			}
+			this.ConnectionEndPoints[idx].ConnectCommand.Execute(null);
+		}
 	}
 }
