@@ -20,11 +20,32 @@
 			}
 		}
 
+		private string BuildDataConnectionPath(string id) {
+			return Path.Combine(basePath, $"{id}.rdp");
+		}
+
 		private string BuildDataConnectionPath(IConnectionEndPoint endPoint) {
 			if (endPoint is RdpFileConnectionEndPoint rdpEndPoint) {
-				return Path.Combine(basePath, $"{rdpEndPoint.Id}.rdp");
+				return BuildDataConnectionPath(rdpEndPoint.Id);
 			}
 			throw new NotImplementedException();
+		}
+
+		public IConnectionEndPoint Create(string name, ConnectionGroup? group) {
+			EnsureDirectoryExists();
+
+			var id = ConnectionFactory.BuildNewId();
+
+			var con = ConnectionFactory.BuildRdp(
+				id: id,
+				name: name,
+				group: group,
+				rdpFilePath: BuildDataConnectionPath(id)
+			);
+
+			this.Save(con);
+
+			return con;
 		}
 
 		public void Save(IConnectionEndPoint endPoint) {
@@ -167,6 +188,8 @@
 				.Select(groupName => new ConnectionGroup(groupName))
 			];
 		}
+
+
 	}
 
 }

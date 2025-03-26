@@ -5,14 +5,18 @@
 	using MeldRDP.Models;
 
 	public class DesignConnectionRepository : IConnectionRepository {
+		public IConnectionEndPoint Create(string name, ConnectionGroup? group) {
+			throw new NotImplementedException();
+		}
+
 		public void Save(IConnectionEndPoint endPoint) {
 			throw new System.NotImplementedException();
 		}
 
 		public IConnectionEndPoint[] FetchAll() {
 			return [.. Enumerable.Range(1, 10).Select(num =>
-			new DesignConnectionEndPoint()
-		)];
+				new DesignConnectionEndPoint()
+			)];
 		}
 
 		public IConnectionEndPoint[] FetchByGroup(string groupName, IConnectionEndPoint[]? connections = null) {
@@ -34,6 +38,8 @@
 		public ConnectionGroup[] FetchAllGroups() {
 			return [.. Enumerable.Range(1, 10).Select(num => new ConnectionGroup($"Group {num}"))];
 		}
+
+
 	};
 
 

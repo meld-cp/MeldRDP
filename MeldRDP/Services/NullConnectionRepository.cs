@@ -2,6 +2,10 @@
 	using MeldRDP.Models;
 
 	public class NullConnectionRepository : IConnectionRepository {
+		public IConnectionEndPoint Create(string name, ConnectionGroup? group) {
+			return null!;
+		}
+
 		public IConnectionEndPoint[] FetchAll() {
 			return [];
 		}

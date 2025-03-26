@@ -4,13 +4,17 @@
 	using MeldRDP.Models;
 
 	public static class ConnectionFactory {
+
+		public static string BuildNewId() {
+			return Guid.NewGuid().ToString("N");
+		}
+
 		public static RdpFileConnectionEndPoint BuildRdp(
+			string id,
 			string name,
 			ConnectionGroup? group,
 			string rdpFilePath
 		) {
-			var id = Guid.NewGuid().ToString();
-
 			return new RdpFileConnectionEndPoint(
 				Id: id,
 				Name: name,

@@ -152,11 +152,13 @@
 
 			var group = this.SelectedGroup ?? allGroup;
 
-			var con = ConnectionFactory.BuildRdp("", group.IsVirtual ? null : group.GetGroup(), "");
+			var con = connectionRepo.Create(name: "", group: group.IsVirtual ? null : group.GetGroup());
+
+			this.RefreshConnections();
 
 			this.router.Edit(
 				endPoint: con,
-				extendedEdit: false,
+				extendedEdit: true,
 				OnEditingCompleteAction: this.RefreshConnections
 			);
 		}
