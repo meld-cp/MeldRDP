@@ -37,7 +37,11 @@
 			}
 		}
 
-		public void Edit(IConnectionEndPoint endPoint, bool extendedEdit) {
+		public void Edit(
+			IConnectionEndPoint endPoint,
+			bool extendedEdit,
+			Action? OnEditingCompleteAction
+		) {
 
 			if (extendedEdit && endPoint is RdpFileConnectionEndPoint epRdp) {
 				srvRdp.EditRdpFile(epRdp.RdpFilepath);
@@ -47,6 +51,13 @@
 			var editWindow = new ConnectionEditorWindow {
 				DataContext = new ConnectionEditorWindowViewModel(connRepo, endPoint)
 			};
+
+			if (OnEditingCompleteAction != null) {
+				editWindow.Closed += (sender, args) => {
+					OnEditingCompleteAction();
+				};
+			}
+
 
 			this.ShowWindowWithOwner(editWindow);
 		}

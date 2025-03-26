@@ -1,4 +1,5 @@
 ﻿namespace MeldRDP.ViewModels {
+	using System;
 	using System.Windows.Input;
 
 	using MeldRDP.Models;
@@ -10,6 +11,7 @@
 	public class EndPointListItemViewModel : ViewModelBase {
 		private readonly IRouter router;
 		private readonly IConnectionEndPoint endPoint;
+		private readonly Action? onEditingCompleteAction;
 
 		[Reactive]
 		public string Id { get; private set; }
@@ -28,10 +30,12 @@
 
 		public EndPointListItemViewModel(
 			IRouter router,
-			IConnectionEndPoint endPoint
+			IConnectionEndPoint endPoint,
+			Action? OnEditingCompleteAction
 		) {
 			this.router = router;
 			this.endPoint = endPoint;
+			onEditingCompleteAction = OnEditingCompleteAction;
 
 			this.Id = endPoint.Id.ToString();
 			this.Name = endPoint.Name;
@@ -47,7 +51,11 @@
 		}
 
 		private void Edit(bool extended) {
-			router.Edit(endPoint, extended);
+			router.Edit(
+				endPoint: endPoint,
+				extendedEdit: extended,
+				OnEditingCompleteAction: onEditingCompleteAction
+			);
 		}
 
 	}

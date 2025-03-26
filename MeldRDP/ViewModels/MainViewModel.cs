@@ -132,7 +132,11 @@
 					|| c.Group.Contains(this.SearchText, StringComparison.InvariantCultureIgnoreCase)
 					|| c.Id.Contains(this.SearchText, StringComparison.InvariantCultureIgnoreCase)
 				)
-				.Select(x => new EndPointListItemViewModel(this.router, x))
+				.Select(x => new EndPointListItemViewModel(
+					router: this.router,
+					endPoint: x,
+					OnEditingCompleteAction: this.RefreshConnections
+				))
 			;
 
 			this.ConnectionEndPoints.Clear();
@@ -150,7 +154,11 @@
 
 			var con = ConnectionFactory.BuildRdp("", group.IsVirtual ? null : group.GetGroup(), "");
 
-			this.router.Edit(con, false);
+			this.router.Edit(
+				endPoint: con,
+				extendedEdit: false,
+				OnEditingCompleteAction: this.RefreshConnections
+			);
 		}
 	}
 }

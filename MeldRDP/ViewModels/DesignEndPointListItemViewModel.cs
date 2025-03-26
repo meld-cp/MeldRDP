@@ -3,7 +3,11 @@
 	using MeldRDP.Services;
 
 	public class DesignEndPointListItemViewModel : EndPointListItemViewModel {
-		public DesignEndPointListItemViewModel() : base(new NullRouter(), new DesignConnectionEndPoint()) {
+		public DesignEndPointListItemViewModel() : base(
+			router: new NullRouter(),
+			endPoint: new DesignConnectionEndPoint(),
+			OnEditingCompleteAction: null
+		) {
 			Name = "Design End Point";
 		}
 	}
