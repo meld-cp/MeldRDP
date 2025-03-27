@@ -11,7 +11,7 @@ I know this tool will be useful for others, so I decided to share it. If it
 helps you, please consider [buying me a coffee](https://buymeacoffee.com/cleon). You
 can also find the link in the application.
 
-<img src="screenshots/main-win-full"/>
+<img src="Assets/screenshots/main-window-full.png"/>
 
 ## Features
 - [x] Portable
