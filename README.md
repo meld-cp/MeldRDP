@@ -57,7 +57,7 @@ and `mstscex.exe` which are developed and maintained by Devolutions
 
 ## Keyboard Shortcuts
 - <kbd>Alt + a</kbd> - Add Connection
-- <kbd>Ctrl + 1</kbd> to <kbd>Ctrl + 0</kbd> - Connect to that connection number (note
-that <kbd>Ctrl + 0</kbd> will connect to the 9th connection)
+- <kbd>Ctrl + 1</kbd> to <kbd>Ctrl + 0</kbd> - Connect to the item in that list position (note
+that <kbd>Ctrl + 0</kbd> will connect to the 10th connection in the visible list)
 - <kbd>Ctrl + r</kbd> - Refresh the connection list
 
