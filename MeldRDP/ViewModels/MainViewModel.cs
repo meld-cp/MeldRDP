@@ -40,6 +40,7 @@
 
 		public ICommand AddConnectionCommand { get; }
 		public ICommand RefreshConnectionsCommand { get; }
+		public ICommand SupportTheDevCommand { get; }
 
 		public ViewModelActivator Activator { get; } = new();
 
@@ -55,6 +56,7 @@
 
 			this.AddConnectionCommand = ReactiveCommand.Create(this.AddRdpConnection);
 			this.RefreshConnectionsCommand = ReactiveCommand.Create(this.RefreshConnections);
+			this.SupportTheDevCommand = ReactiveCommand.Create(router.OpenSupportTheDevLink);
 
 			this.WhenActivated((CompositeDisposable disposables) => {
 

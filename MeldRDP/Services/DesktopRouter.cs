@@ -1,5 +1,6 @@
 ﻿namespace MeldRDP.Services {
 	using System;
+	using System.Diagnostics;
 
 	using Avalonia.Controls;
 	using Avalonia.Controls.ApplicationLifetimes;
@@ -75,6 +76,13 @@
 				DataContext = vm
 			};
 			this.ShowWindowWithOwner(window);
+		}
+
+		public void OpenSupportTheDevLink() {
+			Process.Start(new ProcessStartInfo {
+				UseShellExecute = true,
+				FileName = "https://buymeacoffee.com/cleon"
+			});
 		}
 	}
 }

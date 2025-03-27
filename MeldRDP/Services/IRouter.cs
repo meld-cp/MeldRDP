@@ -11,6 +11,7 @@
 			bool extendedEdit,
 			Action? OnEditingCompleteAction
 		);
+		void OpenSupportTheDevLink();
 		void ShowMessage(MessageWindowViewModel vm);
 	}
 

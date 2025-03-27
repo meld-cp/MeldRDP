@@ -15,6 +15,10 @@
 		) {
 		}
 
+		public void OpenSupportTheDevLink() {
+			
+		}
+
 		public void ShowMessage(MessageWindowViewModel vm) {
 
 		}

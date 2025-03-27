@@ -27,7 +27,7 @@
 			Grid.Column="0"
 			Grid.ColumnSpan="2"
 			FontWeight="Bold"
-			Text="Meld RDS"
+			Text="Meld RDP"
 			VerticalAlignment="Center"
 		/>
 
@@ -59,19 +59,29 @@
 			SelectionMode="Single"
 		/>
 
-		<StackPanel
+		<Grid
 			Grid.Row="4"
 			Grid.Column="0"
 			Grid.ColumnSpan="2"
-			Orientation="Horizontal"
 			Margin="0 10 0 0"
-			Spacing="10"
+			ColumnDefinitions="*"
 		>
 			<Button
 				Content="_Settings"
 				IsEnabled="False"
 			/>
-		</StackPanel>
+
+			<Button
+				Grid.Column="0"
+				HorizontalAlignment="Right"
+				Content="Find this app usefull?  Fuel the dev!"
+				Background="Transparent"
+				Foreground="Blue"
+				Cursor="Hand"
+				Margin="20 0"
+				Command="{Binding SupportTheDevCommand}"
+			/>
+		</Grid>
 
 		<StackPanel
 			Grid.Row="1"
