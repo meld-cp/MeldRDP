@@ -7,12 +7,12 @@
 		public bool IsVirtual { get; }
 
 		public EndPointGroupViewModel(string name, bool isVirtual) {
-			Name = name;
-			IsVirtual = isVirtual;
+			this.Name = name;
+			this.IsVirtual = isVirtual;
 		}
 
 		public ConnectionGroup GetGroup() {
-			return new ConnectionGroup(Name = this.Name);
+			return new ConnectionGroup(this.Name = this.Name);
 		}
 	}
 }

@@ -5,7 +5,7 @@ namespace MeldRDP.Views {
 
 	public partial class ConnectionEditorView : ReactiveUserControl<ConnectionEditorViewModel> {
 		public ConnectionEditorView() {
-			InitializeComponent();
+			this.InitializeComponent();
 		}
 	}
 }

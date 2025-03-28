@@ -44,7 +44,7 @@
 		}
 
 		private IConnectionEndPoint BuildConnection() {
-			if (endpoint is RdpFileConnectionEndPoint epRdp && this.RdpConnectionEditorViewModel is RdpConnectionEditorViewModel vm) {
+			if (this.endpoint is RdpFileConnectionEndPoint epRdp && this.RdpConnectionEditorViewModel is RdpConnectionEditorViewModel vm) {
 				return epRdp with {
 					Name = this.ConnectionEditorViewModel.Name,
 					FullAddress = vm.FullAddress,
@@ -59,7 +59,7 @@
 		}
 
 		private void Delete() {
-			connRepo.Remove(endpoint);
+			this.connRepo.Remove(this.endpoint);
 			this.OnClose?.Invoke(this, EventArgs.Empty);
 		}
 

@@ -14,8 +14,8 @@
 			string title,
 			string message
 		) {
-			Title = title;
-			Message = message;
+			this.Title = title;
+			this.Message = message;
 		}
 
 	}

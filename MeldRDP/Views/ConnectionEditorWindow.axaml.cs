@@ -10,7 +10,7 @@ namespace MeldRDP {
 
 	public partial class ConnectionEditorWindow : ReactiveWindow<ConnectionEditorWindowViewModel> {
 		public ConnectionEditorWindow() {
-			InitializeComponent();
+			this.InitializeComponent();
 
 			this.WhenActivated(disposables => {
 

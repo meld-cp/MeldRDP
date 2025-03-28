@@ -40,27 +40,27 @@
 		) {
 			this.router = router;
 			this.endPoint = endPoint;
-			onEditingCompleteAction = OnEditingCompleteAction;
+			this.onEditingCompleteAction = OnEditingCompleteAction;
 
 			this.Id = endPoint.Id;
 			this.Name = endPoint.Name;
 			this.ExtendedInfo = extendedInfo;
 			this.Group = endPoint.Group;
 
-			ConnectCommand = ReactiveCommand.Create(Connect);
-			EditCommand = ReactiveCommand.Create(() => Edit(false));
-			ExtendedEditCommand = ReactiveCommand.Create(() => Edit(true));
+			this.ConnectCommand = ReactiveCommand.Create(this.Connect);
+			this.EditCommand = ReactiveCommand.Create(() => this.Edit(false));
+			this.ExtendedEditCommand = ReactiveCommand.Create(() => this.Edit(true));
 		}
 
 		private void Connect() {
-			router.Connect(endPoint);
+			this.router.Connect(this.endPoint);
 		}
 
 		private void Edit(bool extended) {
-			router.Edit(
-				endPoint: endPoint,
+			this.router.Edit(
+				endPoint: this.endPoint,
 				extendedEdit: extended,
-				OnEditingCompleteAction: onEditingCompleteAction
+				OnEditingCompleteAction: this.onEditingCompleteAction
 			);
 		}
 

@@ -46,7 +46,7 @@
 				connectionRepo: connRepo
 			);
 
-			if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
+			if (this.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {
 				// create main window
 				var mainWin = new MainWindow();
 				mainWin.MainView.DataContext = mainViewModel;
@@ -76,7 +76,7 @@
 					appSettingsRepo.Save(newAppSettings);
 				};
 
-			} else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform) {
+			} else if (this.ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform) {
 
 				singleViewPlatform.MainView = new MainView {
 					DataContext = mainViewModel

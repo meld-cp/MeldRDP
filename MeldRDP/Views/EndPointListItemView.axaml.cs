@@ -5,7 +5,7 @@ namespace MeldRDP.Views {
 
 	public partial class EndPointListItemView : ReactiveUserControl<EndPointListItemViewModel> {
 		public EndPointListItemView() {
-			InitializeComponent();
+			this.InitializeComponent();
 		}
 	}
 }

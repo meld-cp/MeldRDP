@@ -19,9 +19,9 @@
 		}
 
 		public void Save(AppSettings settings) {
-			EnsureDirectoryExists();
+			this.EnsureDirectoryExists();
 
-			var path = BuildFilePath();
+			var path = this.BuildFilePath();
 
 			var rdpFile = new RdpFormatFile(path);
 			rdpFile.SetValue(KEY_IS_MAXIMISED, settings.IsMaximized ? 1 : 0);
@@ -32,7 +32,7 @@
 
 
 		public AppSettings Load() {
-			var path = BuildFilePath();
+			var path = this.BuildFilePath();
 			if (!File.Exists(path)) {
 				return new AppSettings(IsMaximized: false, Width: null, Height: null);
 			}

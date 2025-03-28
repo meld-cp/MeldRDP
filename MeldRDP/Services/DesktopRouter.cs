@@ -20,7 +20,7 @@
 		public void Connect(IConnectionEndPoint endPoint) {
 
 			if (endPoint is RdpFileConnectionEndPoint epRdp) {
-				_ = srvRdp.Connect(epRdp.RdpFilepath, null);
+				_ = this.srvRdp.Connect(epRdp.RdpFilepath, null);
 				return;
 			}
 
@@ -52,12 +52,12 @@
 		) {
 
 			if (extendedEdit && endPoint is RdpFileConnectionEndPoint epRdp) {
-				srvRdp.EditRdpFile(epRdp.RdpFilepath, RunOnMainThread(OnEditingCompleteAction));
+				this.srvRdp.EditRdpFile(epRdp.RdpFilepath, this.RunOnMainThread(OnEditingCompleteAction));
 				return;
 			}
 
 			var editWindow = new ConnectionEditorWindow {
-				DataContext = new ConnectionEditorWindowViewModel(connRepo, endPoint)
+				DataContext = new ConnectionEditorWindowViewModel(this.connRepo, endPoint)
 			};
 
 			if (OnEditingCompleteAction != null) {

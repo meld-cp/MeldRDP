@@ -15,24 +15,24 @@
 		}
 
 		private void EnsureDirectoryExists() {
-			if (!Directory.Exists(basePath)) {
-				Directory.CreateDirectory(basePath);
+			if (!Directory.Exists(this.basePath)) {
+				Directory.CreateDirectory(this.basePath);
 			}
 		}
 
 		private string BuildDataConnectionPath(string id) {
-			return Path.Combine(basePath, $"{id}.rdp");
+			return Path.Combine(this.basePath, $"{id}.rdp");
 		}
 
 		private string BuildDataConnectionPath(IConnectionEndPoint endPoint) {
 			if (endPoint is RdpFileConnectionEndPoint rdpEndPoint) {
-				return BuildDataConnectionPath(rdpEndPoint.Id);
+				return this.BuildDataConnectionPath(rdpEndPoint.Id);
 			}
 			throw new NotImplementedException();
 		}
 
 		public IConnectionEndPoint Create(string name, ConnectionGroup? group) {
-			EnsureDirectoryExists();
+			this.EnsureDirectoryExists();
 
 			var id = ConnectionFactory.BuildNewId();
 
@@ -40,7 +40,7 @@
 				id: id,
 				name: name,
 				group: group,
-				rdpFilePath: BuildDataConnectionPath(id)
+				rdpFilePath: this.BuildDataConnectionPath(id)
 			);
 
 			this.Save(con);
@@ -49,7 +49,7 @@
 		}
 
 		public void Save(IConnectionEndPoint endPoint) {
-			EnsureDirectoryExists();
+			this.EnsureDirectoryExists();
 
 			if (endPoint is not RdpFileConnectionEndPoint rdpEndPoint) {
 				throw new NotImplementedException();
@@ -66,11 +66,11 @@
 			rdpFile.SetValue(KnownRdpFormatKeys.UseMultimon, rdpEndPoint.SelectedMonitorsFromId.HasValue ? 1 : 0);
 			rdpFile.SetValue(
 				KnownRdpFormatKeys.SelectedMonitors,
-				EncodeSelectedMonitors(rdpEndPoint.SelectedMonitorsFromId, rdpEndPoint.SelectedMonitorsSpanCount)
+				this.EncodeSelectedMonitors(rdpEndPoint.SelectedMonitorsFromId, rdpEndPoint.SelectedMonitorsSpanCount)
 			);
 
 
-			var destPath = BuildDataConnectionPath(endPoint);
+			var destPath = this.BuildDataConnectionPath(endPoint);
 
 			rdpFile.SaveAs(destPath);
 
@@ -122,7 +122,7 @@
 			;
 
 			// decode selected monitors
-			var (selectedMonitorsFromId, selectedMonitorsSpanCount) = DecodeSelectedMonitors(rdpFile.GetStringValue(KnownRdpFormatKeys.SelectedMonitors));
+			var (selectedMonitorsFromId, selectedMonitorsSpanCount) = this.DecodeSelectedMonitors(rdpFile.GetStringValue(KnownRdpFormatKeys.SelectedMonitors));
 
 
 			return new RdpFileConnectionEndPoint(
@@ -141,7 +141,7 @@
 		}
 
 		public IConnectionEndPoint[] FetchAll() {
-			if (!Directory.Exists(basePath)) {
+			if (!Directory.Exists(this.basePath)) {
 				return [];
 			}
 
@@ -149,7 +149,7 @@
 
 			// fetch rdp files
 			var rdpFiles = Directory
-				.EnumerateFiles(basePath, "*.rdp", SearchOption.TopDirectoryOnly)
+				.EnumerateFiles(this.basePath, "*.rdp", SearchOption.TopDirectoryOnly)
 				.Select(filePath => new RdpFormatFile(filePath))
 				.ToArray()
 			;
@@ -163,7 +163,7 @@
 			// deserialize data files
 			foreach (var rdpFile in rdpFiles) {
 				Debug.Assert(rdpFile != null);
-				var rdpEp = Load(rdpFile);
+				var rdpEp = this.Load(rdpFile);
 				result.Add(rdpEp);
 			}
 
@@ -176,7 +176,7 @@
 		}
 
 		public void Remove(IConnectionEndPoint endPoint) {
-			var destPath = BuildDataConnectionPath(endPoint);
+			var destPath = this.BuildDataConnectionPath(endPoint);
 			if (File.Exists(destPath)) {
 				File.Delete(destPath);
 			}

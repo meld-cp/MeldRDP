@@ -7,15 +7,15 @@
 	public partial class MainWindow : Window {
 
 		public MainWindow() {
-			InitializeComponent();
+			this.InitializeComponent();
 
 			this.KeyBindings.Add(new KeyBinding() {
-				Command = ReactiveCommand.Create(FocusOnSearch),
+				Command = ReactiveCommand.Create(this.FocusOnSearch),
 				Gesture = new KeyGesture(Key.F3)
 			});
 
 			this.KeyBindings.Add(new KeyBinding() {
-				Command = ReactiveCommand.Create(RefreshConnections),
+				Command = ReactiveCommand.Create(this.RefreshConnections),
 				Gesture = new KeyGesture(Key.F5)
 			});
 

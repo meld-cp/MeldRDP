@@ -9,7 +9,7 @@
 			extendedInfo: "Extended Info",
 			OnEditingCompleteAction: null
 		) {
-			Name = "Design End Point";
+			this.Name = "Design End Point";
 		}
 	}
 

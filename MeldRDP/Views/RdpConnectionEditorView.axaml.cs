@@ -5,6 +5,6 @@ using MeldRDP.ViewModels;
 
 public partial class RdpConnectionEditorView : ReactiveUserControl<RdpConnectionEditorViewModel> {
 	public RdpConnectionEditorView() {
-		InitializeComponent();
+		this.InitializeComponent();
 	}
 }

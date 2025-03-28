@@ -17,7 +17,7 @@
 				Enumerable.Range(1, 10).Select(num => new DesignEndPointGroupViewModel())
 			);
 
-			ConnectionEndPoints.AddRange(
+			this.ConnectionEndPoints.AddRange(
 				Enumerable.Range(1, 10).Select(num => new DesignEndPointListItemViewModel())
 			);
 

@@ -14,7 +14,7 @@
 		public List<RdpFileFormatRecord> Records { get; } = [];
 
 		public RdpFormatFile(string path) {
-			Path = path;
+			this.Path = path;
 			this.Load();
 		}
 

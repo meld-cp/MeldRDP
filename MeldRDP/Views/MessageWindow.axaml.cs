@@ -6,6 +6,6 @@ using MeldRDP.ViewModels;
 
 public partial class MessageWindow : ReactiveWindow<MessageWindowViewModel> {
 	public MessageWindow() {
-		InitializeComponent();
+		this.InitializeComponent();
 	}
 }
