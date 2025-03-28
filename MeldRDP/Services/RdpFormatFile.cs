@@ -18,6 +18,8 @@
 			this.Load();
 		}
 
+		// Public methods
+
 		public void Load() {
 
 			this.Records.Clear();
@@ -40,7 +42,7 @@
 				var type = parts[1];
 				var value = string.Join(":", parts.Skip(2));
 
-				this.Records.Add(new RdpFileFormatRecord(key, type, value));
+				this.SetValue(key, type, value);
 			}
 
 		}
@@ -53,29 +55,28 @@
 			File.WriteAllLines(path, this.Records.Select(x => $"{x.Key}:{x.Type}:{x.Value}"));
 		}
 
+		public RdpFileFormatRecord? GetRecord(string key) {
+			return this.GetRecordWithIndex(key).Rec;
+		}
+
 		public string? GetStringValue(string key) {
-			return this.Records.FirstOrDefault(x => x.Key == key && x.Type == TYPE_STRING)?.Value;
+			var rec = this.GetRecord(key);
+			if (rec == null || rec.Type != TYPE_STRING) {
+				return null;
+			}
+			return rec.Value;
 		}
 
 		public int? GetIntValue(string key) {
-			var val = this.Records.FirstOrDefault(x => x.Key == key && x.Type == TYPE_INT)?.Value;
+			var rec = this.GetRecord(key);
+			if (rec == null || rec.Type != TYPE_INT) {
+				return null;
+			}
+			var val = rec.Value;
 			if (!int.TryParse(val, out var i)) {
 				return null;
 			}
 			return i;
-		}
-
-		private void SetValue(string key, string type, string? value) {
-
-			var newRec = new RdpFileFormatRecord(key, type, value);
-
-			var recIdx = this.Records.FindIndex(x => x.Key == key);
-			if (recIdx == -1) {
-				this.Records.Add(newRec);
-			} else {
-				this.Records[recIdx] = newRec;
-			}
-
 		}
 
 		public void SetValue(string key, string? value) {
@@ -85,5 +86,30 @@
 		public void SetValue(string key, int? value) {
 			this.SetValue(key, TYPE_INT, $"{value}");
 		}
+
+
+		// Private methods
+		private (int? Index, RdpFileFormatRecord? Rec) GetRecordWithIndex(string key) {
+			var recIdx = this.Records.FindIndex(x => x.Key.Equals(key, System.StringComparison.InvariantCultureIgnoreCase));
+			if (recIdx == -1) {
+				return (null, null);
+			} else {
+				return (recIdx, this.Records[recIdx]);
+			}
+		}
+
+		private void SetValue(string key, string type, string? value) {
+
+			var newRec = new RdpFileFormatRecord(key, type, value);
+
+			var (recIdx, _) = this.GetRecordWithIndex(key);
+			if (recIdx.HasValue) {
+				this.Records[recIdx.Value] = newRec;
+			} else {
+				this.Records.Add(newRec);
+			}
+
+		}
+
 	}
 }
