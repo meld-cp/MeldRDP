@@ -34,8 +34,11 @@
 		[Reactive]
 		public EndPointGroupViewModel? SelectedGroup { get; set; }
 
+
+		private IConnectionEndPoint[] allConnections = [];
+
 		[Reactive]
-		public ObservableCollection<EndPointListItemViewModel> ConnectionEndPoints { get; set; } = [];
+		public ObservableCollection<EndPointListItemViewModel> ConnectionEndPoints { get; private set; } = [];
 
 
 		public ICommand AddConnectionCommand { get; }
@@ -96,8 +99,8 @@
 				this.SelectedGroup = allGroup;
 			}
 
-			var allConnections = this.connectionRepo.FetchAll();
-			var noGroupConnections = allConnections.Where(x => string.IsNullOrEmpty(x.Group)).ToArray();
+			this.allConnections = this.connectionRepo.FetchAll();
+			var noGroupConnections = this.allConnections.Where(x => string.IsNullOrEmpty(x.Group)).ToArray();
 			if (noGroupConnections.Length > 0 && !this.EndPointGroups.Contains(noGroup)) {
 				this.EndPointGroups.Add(noGroup);
 			}
@@ -123,7 +126,7 @@
 					continue;
 				}
 				if (groups.All(x => x.Name != group.Name)) {
-					this.EndPointGroups.Remove(group);
+					_ = this.EndPointGroups.Remove(group);
 				}
 			}
 
@@ -131,11 +134,11 @@
 			IConnectionEndPoint[] groupConnections;
 			var selectedGroup = this.SelectedGroup ?? allGroup;
 			if (selectedGroup == allGroup) {
-				groupConnections = allConnections;
+				groupConnections = this.allConnections;
 			} else if (selectedGroup == noGroup) {
-				groupConnections = this.connectionRepo.FetchByGroup(string.Empty, allConnections);
+				groupConnections = this.connectionRepo.FetchByGroup(string.Empty, this.allConnections);
 			} else {
-				groupConnections = this.connectionRepo.FetchByGroup(selectedGroup.Name, allConnections);
+				groupConnections = this.connectionRepo.FetchByGroup(selectedGroup.Name, this.allConnections);
 			}
 
 			var groupConnectionViewModels = groupConnections
@@ -153,19 +156,19 @@
 			this.ConnectionEndPoints.Clear();
 			this.ConnectionEndPoints.AddRange(groupConnectionViewModels);
 
-			SelectedGroupTitle = selectedGroup.Name ?? $"Connections: {groupConnectionViewModels.Length}";
-			ConnectionSummary = $"Connections: {groupConnectionViewModels.Length}";
+			this.SelectedGroupTitle = selectedGroup.Name ?? $"Connections: {groupConnectionViewModels.Length}";
+			this.ConnectionSummary = $"Connections: {groupConnectionViewModels.Length}";
 
 
 		}
 
 		private void AddRdpConnection() {
 
+
 			var group = this.SelectedGroup ?? allGroup;
+			var con = this.connectionRepo.Create(name: "", group: group.IsVirtual ? null : group.GetGroup());
 
-			var con = connectionRepo.Create(name: "", group: group.IsVirtual ? null : group.GetGroup());
-
-			this.ConnectionEndPoints.Insert(0, BuildEndPointListItemViewModel(con));
+			this.ConnectionEndPoints.Insert(0, this.BuildEndPointListItemViewModel(con));
 
 			this.router.Edit(
 				endPoint: con,
@@ -177,11 +180,12 @@
 					// non-extended edit the connection
 
 					// find con again by id
-					var editedCon = this.ConnectionEndPoints.FirstOrDefault(x => x.Id == con.Id);
+					var editedCon = this.allConnections.FirstOrDefault(x => x.Id == con.Id);
 					if (editedCon == null) {
 						return;
 					}
-					editedCon.EditCommand.Execute(null);
+					var editedConVm = this.BuildEndPointListItemViewModel(editedCon);
+					editedConVm.EditCommand.Execute(null);
 				}
 			);
 		}
