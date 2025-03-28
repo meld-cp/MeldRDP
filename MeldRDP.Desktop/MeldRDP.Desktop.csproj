@@ -9,6 +9,8 @@
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<AssemblyName>Meld RDP</AssemblyName>
 		<ApplicationIcon>logo.ico</ApplicationIcon>
+		<Title>Meld RDP</Title>
+		<PackageProjectUrl>https://github.com/meld-cp/MeldRDP</PackageProjectUrl>
 		
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
