@@ -6,7 +6,7 @@
 	xmlns:vm="clr-namespace:MeldRDP.ViewModels"
 	mc:Ignorable="d"
 	d:DesignWidth="400"
-	d:DesignHeight="150"
+	d:DesignHeight="250"
 	x:Class="MeldRDP.Views.ConnectionEditorView"
 	x:DataType="vm:ConnectionEditorViewModel"
 >
@@ -15,9 +15,10 @@
 	</Design.DataContext>
 	<Grid
 		  Margin="10"
-		  RowDefinitions="auto auto auto *"
+		  RowDefinitions="auto auto auto auto *"
 		  ColumnDefinitions="auto 10 *"
 	>
+		<!--Id-->
 		<TextBlock
 			Grid.Row="0"
 			Grid.Column="0"
@@ -33,6 +34,7 @@
 			Text="{Binding Id}"
 		/>
 
+		<!--Name-->
 		<TextBlock
 			Grid.Row="1"
 			Grid.Column="0"
@@ -48,6 +50,7 @@
 			Text="{Binding Name}"
 		/>
 
+		<!--Group-->
 		<TextBlock
 			Grid.Row="2"
 			Grid.Column="0"
@@ -62,6 +65,34 @@
 			VerticalAlignment="Center"
 			Text="{Binding Group}"
 		/>
+
+		<!--Background Image-->
+		<TextBlock
+			Grid.Row="3"
+			Grid.Column="0"
+			Text="Background:"
+			Margin="0 5"
+			VerticalAlignment="Center"
+		/>
+		<TextBox
+			Grid.Row="3"
+			Grid.Column="2"
+			Margin="0 5"
+			VerticalAlignment="Center"
+			Text="{Binding BackgroundImageName}"
+		/>
+
+		<Image
+			Grid.RowSpan="99"
+			Grid.ColumnSpan="99"
+			Height="160"
+			VerticalAlignment="Top"
+			Source="{Binding BackgroundSource}"
+			Stretch="UniformToFill"
+			ZIndex="-999"
+			Opacity="0.25"
+		/>
+
 
 	</Grid>
 </UserControl>

@@ -5,6 +5,7 @@
 		string FullAddress,
 		string RdpFilepath,
 		string Group,
+		string? BackgroundImageName,
 		bool EnableMouseJiggler = false,
 		int? MouseJigglerInterval = null,
 		int? SelectedMonitorsFromId = null,

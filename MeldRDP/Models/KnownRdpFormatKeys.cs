@@ -43,6 +43,7 @@
 
 		public const string MeldName = "MeldName";
 		public const string MeldGroup = "MeldGroup";
+		public const string MeldBackgroundImageName = "MeldBackgroundImageName";
 
 		#endregion Meld Keys
 	}

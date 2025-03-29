@@ -5,7 +5,8 @@
 	public class DesignConnectionEditorWindowViewModel : ConnectionEditorWindowViewModel {
 		public DesignConnectionEditorWindowViewModel() : base(
 			connRepo: new NullConnectionRepository(),
-			endpoint: new DesignConnectionEndPoint()
+			endpoint: new DesignConnectionEndPoint(),
+			backgroundImageProvider: new NullImageProvider()
 		) { }
 	}
 }

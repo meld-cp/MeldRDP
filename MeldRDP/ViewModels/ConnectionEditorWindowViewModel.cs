@@ -22,12 +22,13 @@
 
 		public ConnectionEditorWindowViewModel(
 			IConnectionRepository connRepo,
-			IConnectionEndPoint endpoint
+			IConnectionEndPoint endpoint,
+			IImageProvider backgroundImageProvider
 		) {
 			this.connRepo = connRepo;
 			this.endpoint = endpoint;
 
-			this.ConnectionEditorViewModel = new ConnectionEditorViewModel(endpoint);
+			this.ConnectionEditorViewModel = new ConnectionEditorViewModel(endpoint, backgroundImageProvider);
 			if (endpoint is RdpFileConnectionEndPoint epRdp) {
 				this.RdpConnectionEditorViewModel = new RdpConnectionEditorViewModel(epRdp);
 			}
@@ -49,6 +50,7 @@
 					Name = this.ConnectionEditorViewModel.Name,
 					FullAddress = vm.FullAddress,
 					Group = this.ConnectionEditorViewModel.Group,
+					BackgroundImageName = this.ConnectionEditorViewModel.BackgroundImageName,
 					EnableMouseJiggler = vm.EnableMouseJiggler,
 					MouseJigglerInterval = vm.MouseJigglerInterval,
 					SelectedMonitorsFromId = vm.SelectedMonitorsFromId,

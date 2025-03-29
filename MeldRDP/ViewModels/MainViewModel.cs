@@ -18,6 +18,7 @@
 
 		private readonly IRouter router;
 		private readonly IConnectionRepository connectionRepo;
+		private readonly IImageProvider backgroundProvider;
 
 		[Reactive]
 		public string SelectedGroupTitle { get; set; } = "";
@@ -52,11 +53,12 @@
 
 		public MainViewModel(
 			IRouter router,
-			IConnectionRepository connectionRepo
+			IConnectionRepository connectionRepo,
+			IImageProvider backgroundProvider
 		) {
 			this.router = router;
 			this.connectionRepo = connectionRepo;
-
+			this.backgroundProvider = backgroundProvider;
 			this.AddConnectionCommand = ReactiveCommand.Create(this.AddRdpConnection);
 			this.RefreshConnectionsCommand = ReactiveCommand.Create(this.RefreshConnections);
 			this.SupportTheDevCommand = ReactiveCommand.Create(router.OpenSupportTheDevLink);
@@ -86,6 +88,7 @@
 				router: this.router,
 				endPoint: endPoint,
 				extendedInfo: endPoint is RdpFileConnectionEndPoint epRdp ? epRdp.FullAddress : "",
+				backgroundImage: this.backgroundProvider.Fetch( endPoint.BackgroundImageName ),
 				OnEditingCompleteAction: this.RefreshConnections
 			);
 		}

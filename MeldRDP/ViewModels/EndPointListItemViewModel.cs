@@ -2,6 +2,8 @@
 	using System;
 	using System.Windows.Input;
 
+	using Avalonia.Media.Imaging;
+
 	using MeldRDP.Models;
 	using MeldRDP.Services;
 
@@ -25,6 +27,10 @@
 		[Reactive]
 		public string ExtendedInfo { get; set; }
 
+		[Reactive]
+		public Bitmap? BackgroundSource { get; set; }
+
+
 
 		public ICommand ConnectCommand { get; }
 		public ICommand EditCommand { get; }
@@ -36,6 +42,7 @@
 			IRouter router,
 			IConnectionEndPoint endPoint,
 			string extendedInfo,
+			Bitmap? backgroundImage,
 			Action? OnEditingCompleteAction
 		) {
 			this.router = router;
@@ -46,6 +53,7 @@
 			this.Name = endPoint.Name;
 			this.ExtendedInfo = extendedInfo;
 			this.Group = endPoint.Group;
+			this.BackgroundSource = backgroundImage;
 
 			this.ConnectCommand = ReactiveCommand.Create(this.Connect);
 			this.EditCommand = ReactiveCommand.Create(() => this.Edit(false));

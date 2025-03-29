@@ -11,10 +11,12 @@
 	public class DesktopRouter : IRouter {
 		private readonly IRdpMstscService srvRdp;
 		private readonly IConnectionRepository connRepo;
+		private readonly IImageProvider imageProvider;
 
-		public DesktopRouter(IRdpMstscService srvRdp, IConnectionRepository connRepo) {
+		public DesktopRouter(IRdpMstscService srvRdp, IConnectionRepository connRepo, IImageProvider imageProvider) {
 			this.srvRdp = srvRdp;
 			this.connRepo = connRepo;
+			this.imageProvider = imageProvider;
 		}
 
 		public void Connect(IConnectionEndPoint endPoint) {
@@ -57,7 +59,7 @@
 			}
 
 			var editWindow = new ConnectionEditorWindow {
-				DataContext = new ConnectionEditorWindowViewModel(this.connRepo, endPoint)
+				DataContext = new ConnectionEditorWindowViewModel(this.connRepo, endPoint, this.imageProvider)
 			};
 
 			if (OnEditingCompleteAction != null) {

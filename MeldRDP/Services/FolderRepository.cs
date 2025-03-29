@@ -60,6 +60,7 @@
 
 			rdpFile.SetValue(KnownRdpFormatKeys.MeldName, rdpEndPoint.Name);
 			rdpFile.SetValue(KnownRdpFormatKeys.MeldGroup, rdpEndPoint.Group);
+			rdpFile.SetValue(KnownRdpFormatKeys.MeldBackgroundImageName, rdpEndPoint.BackgroundImageName);
 			rdpFile.SetValue(KnownRdpFormatKeys.EnableMouseJiggler, rdpEndPoint.EnableMouseJiggler ? 1 : 0);
 			rdpFile.SetValue(KnownRdpFormatKeys.MouseJigglerInterval, rdpEndPoint.MouseJigglerInterval);
 
@@ -131,6 +132,7 @@
 				FullAddress: rdpFile.GetStringValue(KnownRdpFormatKeys.FullAddress) ?? "",
 				RdpFilepath: rdpFile.Path,
 				Group: rdpFile.GetStringValue(KnownRdpFormatKeys.MeldGroup) ?? "",
+				BackgroundImageName: rdpFile.GetStringValue(KnownRdpFormatKeys.MeldBackgroundImageName),
 
 				EnableMouseJiggler: rdpFile.GetIntValue(KnownRdpFormatKeys.EnableMouseJiggler) == 1,
 				MouseJigglerInterval: rdpFile.GetIntValue(KnownRdpFormatKeys.MouseJigglerInterval),

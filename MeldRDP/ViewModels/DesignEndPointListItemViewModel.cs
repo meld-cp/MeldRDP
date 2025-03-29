@@ -7,6 +7,7 @@
 			router: new NullRouter(),
 			endPoint: new DesignConnectionEndPoint(),
 			extendedInfo: "Extended Info",
+			backgroundImage: null,
 			OnEditingCompleteAction: null
 		) {
 			this.Name = "Design End Point";

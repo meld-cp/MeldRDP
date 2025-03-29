@@ -21,6 +21,7 @@
 				FullAddress: "",
 				RdpFilepath: rdpFilePath,
 				Group: group?.Name ?? "",
+				BackgroundImageName: null,
 				EnableMouseJiggler: false,
 				MouseJigglerInterval: null
 			);

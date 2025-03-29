@@ -9,9 +9,11 @@
 			<ResourceDictionary.ThemeDictionaries>
 				<ResourceDictionary x:Key='Light'>
 					<Thickness x:Key='ConnectionBorderThickness'>2</Thickness>
+					<Brush x:Key='ConnectionPanelBackgroundBrush'>#cfff</Brush>
 				</ResourceDictionary>
 				<ResourceDictionary x:Key='Dark'>
 					<Thickness x:Key='ConnectionBorderThickness'>2</Thickness>
+					<Brush x:Key='ConnectionPanelBackgroundBrush'>#c000</Brush>
 				</ResourceDictionary>
 			</ResourceDictionary.ThemeDictionaries>
 		</ResourceDictionary>
@@ -24,6 +26,9 @@
 			<Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"/>
 			<Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColor}"/>
 			<Setter Property="BorderThickness" Value="{DynamicResource ConnectionBorderThickness}"/>
+		</Style>
+		<Style Selector="Border#ConnectionPanel">
+			<Setter Property="Background" Value="{DynamicResource ConnectionPanelBackgroundBrush}"/>
 		</Style>
 	</Application.Styles>
 </Application>

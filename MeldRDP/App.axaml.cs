@@ -38,12 +38,14 @@
 			var procMon = new ProcessMonitorService(TimeSpan.FromMilliseconds(500));
 			var srvRdp = new RdpExMstscService(procMon, appPath);
 			var connRepo = new FolderRepository(dataPath);
-			this.DesktopRouter = new DesktopRouter(srvRdp: srvRdp, connRepo);
+			var imageProvider = new DefaultImageProvider(dataPath);
+			this.DesktopRouter = new DesktopRouter(srvRdp: srvRdp, connRepo, imageProvider);
 
 			// create main view model
 			var mainViewModel = new MainViewModel(
 				router: this.DesktopRouter,
-				connectionRepo: connRepo
+				connectionRepo: connRepo,
+				backgroundProvider: imageProvider
 			);
 
 			if (this.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {

@@ -10,7 +10,8 @@
 
 		public DesignMainViewModel() : base(
 			router: new NullRouter(),
-			connectionRepo: new DesignConnectionRepository()
+			connectionRepo: new DesignConnectionRepository(),
+			backgroundProvider: new NullImageProvider()
 		) {
 
 			this.EndPointGroups.AddRange(
