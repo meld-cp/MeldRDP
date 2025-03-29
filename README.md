@@ -21,6 +21,7 @@ can also find the link in the application.
 - [x] Multi-monitor span support
 - [x] Keep session alive
 - [x] Light and Dark theme support (follows OS setting)
+- [x] Custom connection backgrounds
 
 
 ## Quick Start
@@ -35,16 +36,16 @@ and click `Save`.
 <img src="Assets/screenshots/edit-ex.png"/>
 
 - Once the RDP edit window is closed, a simpler edit window will pop up where you can give
-your connection a Name and Group, click `Save` to close when done.
+your connection an optional Name, Group and Background image. Click `Save` to close when done.
 
 <img src="Assets/screenshots/edit.png"/>
 
-- Your connection will now appear in the main window. Click it (or <kbd>Ctrl + 1</kbd>)
+- Your connection will now appear in the main window. Click it (or press <kbd>Ctrl + 1</kbd>)
 to start the connection.
 
 <img src="Assets/screenshots/main-window-example.png"/>
 
-- All RDP files are saved in the `Data` folder in the same directory as the application.
+- All RDP files are saved in the `Connections` folder in the same directory as the application.
 
 <img src="Assets/screenshots/dir.png"/>
 
