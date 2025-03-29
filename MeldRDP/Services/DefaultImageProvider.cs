@@ -4,18 +4,9 @@
 
 	using Avalonia.Media.Imaging;
 
-	public class DefaultImageProvider : IImageProvider {
-		private readonly string basePath;
+	public class DefaultImageProvider(string basePath) : BasePathService(basePath), IImageProvider {
 
 		private readonly Dictionary<string, Bitmap> cache = [];
-
-		public DefaultImageProvider(string basePath) {
-			this.basePath = basePath;
-		}
-
-		private string BuildPath(string imageName) {
-			return Path.Combine(this.basePath, imageName);
-		}
 
 		public Bitmap? Fetch(string? filename) {
 
@@ -27,7 +18,7 @@
 				return value;
 			}
 
-			var filePath = this.BuildPath(filename);
+			var filePath = this.BuildFilePath(filename);
 			if (!File.Exists(filePath)) {
 				return null;
 			}

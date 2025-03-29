@@ -8,14 +8,14 @@
 	/// This includes additional features like the ability to enable 'mousejiggle' to
 	/// keep a session from timing out.
 	/// </summary>
-	public class RdpExMstscService : IRdpMstscService {
+	public class RdpExMstscService : BasePathService, IRdpMstscService {
 		//See: https://github.com/Devolutions/MsRdpEx
 		//See: https://github.com/Devolutions/MsRdpEx/pull/82
 
 		private readonly ProcessMonitorService procMon;
 		private readonly string binPath;
 
-		public RdpExMstscService(ProcessMonitorService procMon, string basePath) {
+		public RdpExMstscService(ProcessMonitorService procMon, string basePath) : base(basePath) {
 			// get bin path
 			this.binPath = Path.Combine(basePath, "mstscex.exe");
 			if (!File.Exists(this.binPath)) {

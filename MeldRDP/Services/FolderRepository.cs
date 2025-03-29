@@ -7,21 +7,14 @@
 
 	using MeldRDP.Models;
 
-	public class FolderRepository : IConnectionRepository {
-		private readonly string basePath;
+	public class FolderRepository : BasePathService, IConnectionRepository {
 
-		public FolderRepository(string basePath) {
-			this.basePath = basePath;
-		}
+		public FolderRepository(string basePath) : base(basePath) {
 
-		private void EnsureDirectoryExists() {
-			if (!Directory.Exists(this.basePath)) {
-				Directory.CreateDirectory(this.basePath);
-			}
 		}
 
 		private string BuildDataConnectionPath(string id) {
-			return Path.Combine(this.basePath, $"{id}.rdp");
+			return this.BuildFilePath($"{id}.rdp");
 		}
 
 		private string BuildDataConnectionPath(IConnectionEndPoint endPoint) {
@@ -143,15 +136,18 @@
 		}
 
 		public IConnectionEndPoint[] FetchAll() {
-			if (!Directory.Exists(this.basePath)) {
+			if (!this.BasePathExists()) {
 				return [];
 			}
 
 			var result = new List<IConnectionEndPoint>();
 
 			// fetch rdp files
-			var rdpFiles = Directory
-				.EnumerateFiles(this.basePath, "*.rdp", SearchOption.TopDirectoryOnly)
+			var rdpFiles = this
+				.EnumerateFiles(
+					searchPattern: "*.rdp",
+					searchOption: SearchOption.TopDirectoryOnly
+				)
 				.Select(filePath => new RdpFormatFile(filePath))
 				.ToArray()
 			;

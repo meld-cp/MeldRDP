@@ -3,25 +3,18 @@
 
 	using MeldRDP.Models;
 
-	public class AppSettingsRepository(string basePath) {
+	public class AppSettingsRepository(string basePath) : BasePathService(basePath) {
+		private const string FILENAME = "appsettings.data";
+
 		private const string KEY_IS_MAXIMISED = "is maximised";
 		private const string KEY_WITDH = "width";
 		private const string KEY_HEIGHT = "height";
 
-		private void EnsureDirectoryExists() {
-			if (!Directory.Exists(basePath)) {
-				Directory.CreateDirectory(basePath);
-			}
-		}
-
-		private string BuildFilePath() {
-			return Path.Combine(basePath, "appsettings.data");
-		}
 
 		public void Save(AppSettings settings) {
 			this.EnsureDirectoryExists();
 
-			var path = this.BuildFilePath();
+			var path = this.BuildFilePath(FILENAME);
 
 			var rdpFile = new RdpFormatFile(path);
 			rdpFile.SetValue(KEY_IS_MAXIMISED, settings.IsMaximized ? 1 : 0);
@@ -32,7 +25,7 @@
 
 
 		public AppSettings Load() {
-			var path = this.BuildFilePath();
+			var path = this.BuildFilePath(FILENAME);
 			if (!File.Exists(path)) {
 				return new AppSettings(IsMaximized: false, Width: null, Height: null);
 			}
