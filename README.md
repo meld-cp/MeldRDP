@@ -29,12 +29,13 @@ sustainability. For more details, see the [license](LICENCE.md).
 
 
 ## Quick Start
-- Unzip the downloaded file and run `Meld RDP.exe`.
+- Download `MeldRDP.zip` from the [Releases](https://github.com/meld-cp/MeldRDP/releases) page.
+- Unzip it and run `Meld RDP.exe`.
 
 <img src="Assets/screenshots/main-window-empty.png"/>
 
-- Add a new connection by clicking the `Add Connection` button (or <kbd>Alt + a</kbd>).
-- The standard RDP connection editor window will pop up, fill in the connection details
+- Add a new connection by clicking the `Add Connection` button (or press <kbd>Alt + a</kbd>).
+- The RDP connection editor window will pop up, fill in the connection details
 and click `Save`.
 
 <img src="Assets/screenshots/edit-ex.png"/>
