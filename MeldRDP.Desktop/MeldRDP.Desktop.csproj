@@ -22,6 +22,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Include="..\3rd Party Software LICENSE.md" Link="3rd Party Software LICENSE.md">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Include="..\LICENCE.md" Link="LICENCE.md">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Avalonia.Desktop" Version="11.2.6" />
 	</ItemGroup>
 
@@ -30,6 +39,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Update="3rd Party Software LICENSE">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	  <None Update="Images\bg1.jpg">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
