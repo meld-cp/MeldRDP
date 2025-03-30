@@ -1,15 +1,19 @@
 # Meld RDP
+**A Fast, Portable Remote Desktop Manager**
 
-## Description
-A fast, portable application to manage your remote desktop connections.
+**Meld RDP** is a lightweight, portable application designed to simplify the management of
+your remote desktop (RDP) connections. I built this tool to solve a problem I faced,
+existing RDP managers were either too slow, too complex, or lacked portability.  
 
-I built this application to manage my remote desktop connections. I wanted a simple,
-fast, and portable application where I can keep my RDP connections together. Other RDP
-managers I found were either too slow, too complex, or not portable.
+I believe this tool will be useful to many others, which is why I’m sharing it with the
+community. If it helps you, please consider [buying me a coffee](https://buymeacoffee.com/cleon).
+The link can also be found directly within the application.  
 
-I know this tool will be useful for others, so I decided to share it. If it
-helps you, please consider [buying me a coffee](https://buymeacoffee.com/cleon). You
-can also find the link in the application.
+**Note:** The software is free for personal use. However, by contributing PRs or donating to
+the project, you are free to use it commercially. This helps ensure the project's long-term
+sustainability. For more details, see the [license](LICENCE.md).
+
+
 
 <img src="Assets/screenshots/main-window-full.png"/>
 
