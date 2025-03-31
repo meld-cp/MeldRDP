@@ -25,49 +25,55 @@
 		Cursor="Hand"
 		Command="{Binding ConnectCommand}"
 	>
-		<Grid
-			RowDefinitions="*"
+		<Border
+			Name="ConnectionBorder"
+			ClipToBounds="True"
 		>
-			<Image
-				Grid.Row="0"
-				Source="{Binding BackgroundSource}"
-				Stretch="UniformToFill"
-			/>
-
-			<Border
-				Name="ConnectionPanel"
-				Grid.Row="0"
-				Padding="10"
-				VerticalAlignment="Bottom"
+			<Grid
+				RowDefinitions="*"
 			>
-				<StackPanel
-					Spacing="5"
+
+				<Image
+					Grid.Row="0"
+					Source="{Binding BackgroundSource}"
+					Stretch="UniformToFill"
+				/>
+
+				<Border
+					Name="ConnectionPanel"
+					Grid.Row="0"
+					Padding="10"
+					VerticalAlignment="Bottom"
 				>
-					<TextBlock Text="{Binding Name}" FontWeight="Bold" />
-					<TextBlock Text="{Binding Id}" FontSize="10" Foreground="Gray"/>
-					<TextBlock Text="{Binding ExtendedInfo}" FontSize="10" />
-					<TextBlock Text="{Binding Group}" FontSize="12"/>
-
-					<!--button row-->
 					<StackPanel
-						Orientation="Horizontal"
-						Spacing="10"
+						Spacing="5"
 					>
-						<Button
-							Focusable="False"
-							Content="Edit"
-							Command="{Binding EditCommand}"
-						/>
-						<Button
-							Focusable="False"
-							Content="{Binding ExtendedEditLabel}"
-							Command="{Binding ExtendedEditCommand}"
-						/>
-					</StackPanel>
+						<TextBlock Text="{Binding Name}" FontWeight="Bold" />
+						<TextBlock Text="{Binding Id}" FontSize="10" Foreground="Gray"/>
+						<TextBlock Text="{Binding ExtendedInfo}" FontSize="10" />
+						<TextBlock Text="{Binding Group}" FontSize="12"/>
 
-				</StackPanel>
-			</Border>
-		</Grid>
+						<!--button row-->
+						<StackPanel
+							Orientation="Horizontal"
+							Spacing="10"
+						>
+							<Button
+								Focusable="False"
+								Content="Edit"
+								Command="{Binding EditCommand}"
+							/>
+							<Button
+								Focusable="False"
+								Content="{Binding ExtendedEditLabel}"
+								Command="{Binding ExtendedEditCommand}"
+							/>
+						</StackPanel>
+
+					</StackPanel>
+				</Border>
+			</Grid>
+		</Border>
 	</Button>
 
 </UserControl>

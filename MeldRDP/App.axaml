@@ -7,12 +7,14 @@
 	<Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.ThemeDictionaries>
-				<ResourceDictionary x:Key='Light'>
+				<ResourceDictionary x:Key='Default'>
+					<CornerRadius x:Key='ConnectionBorderRadius'>10</CornerRadius >
 					<Thickness x:Key='ConnectionBorderThickness'>2</Thickness>
+				</ResourceDictionary>
+				<ResourceDictionary x:Key='Light'>
 					<Brush x:Key='ConnectionPanelBackgroundBrush'>#cfff</Brush>
 				</ResourceDictionary>
 				<ResourceDictionary x:Key='Dark'>
-					<Thickness x:Key='ConnectionBorderThickness'>2</Thickness>
 					<Brush x:Key='ConnectionPanelBackgroundBrush'>#c000</Brush>
 				</ResourceDictionary>
 			</ResourceDictionary.ThemeDictionaries>
@@ -21,11 +23,18 @@
 
 	<!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
 	<Application.Styles>
+		
+		<!--https://github.com/AvaloniaUI/Avalonia/tree/master/src/Avalonia.Themes.Fluent-->
 		<FluentTheme/>
+
 		<Style Selector="Button#ConnectionButton">
 			<Setter Property="Background" Value="{DynamicResource SystemControlBackgroundChromeMediumLowBrush}"/>
 			<Setter Property="BorderBrush" Value="{DynamicResource SystemAccentColor}"/>
 			<Setter Property="BorderThickness" Value="{DynamicResource ConnectionBorderThickness}"/>
+			<Setter Property="CornerRadius" Value="{DynamicResource ConnectionBorderRadius}"/>
+		</Style>
+		<Style Selector="Border#ConnectionBorder">
+			<Setter Property="CornerRadius" Value="{DynamicResource ConnectionBorderRadius}"/>
 		</Style>
 		<Style Selector="Border#ConnectionPanel">
 			<Setter Property="Background" Value="{DynamicResource ConnectionPanelBackgroundBrush}"/>

@@ -6,7 +6,7 @@
 	xmlns:vm="clr-namespace:MeldRDP.ViewModels"
 	xmlns:views="clr-namespace:MeldRDP.Views"
 	mc:Ignorable="d"
-	d:DesignWidth="760"
+	d:DesignWidth="840"
 	d:DesignHeight="600"
 	x:Class="MeldRDP.Views.MainView"
 	x:DataType="vm:MainViewModel"
