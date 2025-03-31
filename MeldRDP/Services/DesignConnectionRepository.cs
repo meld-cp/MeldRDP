@@ -36,7 +36,7 @@
 		}
 
 		public ConnectionGroup[] FetchAllGroups() {
-			return [.. Enumerable.Range(1, 10).Select(num => new ConnectionGroup($"Group {num}"))];
+			return [.. Enumerable.Range(1, 10).Select(num => new ConnectionGroup(ConnectionGroupType.Custom, $"Group {num}"))];
 		}
 
 

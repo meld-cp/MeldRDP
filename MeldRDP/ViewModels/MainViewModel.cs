@@ -19,6 +19,7 @@
 		private readonly IRouter router;
 		private readonly IConnectionRepository connectionRepo;
 		private readonly IImageProvider backgroundProvider;
+		private IConnectionEndPoint[] allConnections = [];
 
 		[Reactive]
 		public string SelectedGroupTitle { get; set; } = "";
@@ -29,14 +30,10 @@
 		[Reactive]
 		public string SearchText { get; set; } = "";
 
-
 		public ObservableCollection<EndPointGroupViewModel> EndPointGroups { get; private set; } = [];
 
 		[Reactive]
 		public EndPointGroupViewModel? SelectedGroup { get; set; }
-
-
-		private IConnectionEndPoint[] allConnections = [];
 
 		[Reactive]
 		public ObservableCollection<EndPointListItemViewModel> ConnectionEndPoints { get; private set; } = [];
@@ -48,9 +45,6 @@
 
 		public ViewModelActivator Activator { get; } = new();
 
-		private static readonly EndPointGroupViewModel allGroup = new("[All]", true);
-		private static readonly EndPointGroupViewModel noGroup = new("[None]", true);
-
 		public MainViewModel(
 			IRouter router,
 			IConnectionRepository connectionRepo,
@@ -59,9 +53,14 @@
 			this.router = router;
 			this.connectionRepo = connectionRepo;
 			this.backgroundProvider = backgroundProvider;
+			
 			this.AddConnectionCommand = ReactiveCommand.Create(this.AddRdpConnection);
 			this.RefreshConnectionsCommand = ReactiveCommand.Create(this.RefreshConnections);
 			this.SupportTheDevCommand = ReactiveCommand.Create(router.OpenSupportTheDevLink);
+
+			// add an [All] group
+			this.EndPointGroups.Add(new(ConnectionGroupType.Everything, name: "[All]"));
+
 
 			this.WhenActivated((CompositeDisposable disposables) => {
 
@@ -69,7 +68,6 @@
 
 				this
 					.WhenAnyValue(x => x.SelectedGroup)
-					.Skip(1)
 					.Subscribe(_ => this.RefreshConnections())
 				;
 
@@ -88,44 +86,64 @@
 				router: this.router,
 				endPoint: endPoint,
 				extendedInfo: endPoint is RdpFileConnectionEndPoint epRdp ? epRdp.FullAddress : "",
-				backgroundImage: this.backgroundProvider.Fetch( endPoint.BackgroundImageName ),
+				backgroundImage: this.backgroundProvider.Fetch(endPoint.BackgroundImageName),
 				OnEditingCompleteAction: this.RefreshConnections
 			);
 		}
 
 		public void RefreshConnections() {
 
-			//System.Diagnostics.Debug.WriteLine("Refreshing connections");
+			// fetch the Everything group
+			var allGroup = this.EndPointGroups.First(i => i.GroupType == ConnectionGroupType.Everything);
 
-			if (this.EndPointGroups.Count == 0) {
-				this.EndPointGroups.Add(allGroup);
-				this.SelectedGroup = allGroup;
+			// make sure there is a group selected
+			if (this.SelectedGroup == null) {
+				this.SelectedGroup = allGroup; // this will trigger a refresh so return
+				return;
 			}
 
+
+			System.Diagnostics.Debug.Assert(this.SelectedGroup != null);
+			EndPointGroupViewModel selectedGroup = this.SelectedGroup;
+
+			System.Diagnostics.Debug.WriteLine($"Refreshing connections, {selectedGroup.Name}");
+			// fetch all connections
 			this.allConnections = this.connectionRepo.FetchAll();
+
+			// check for connections without a group
 			var noGroupConnections = this.allConnections.Where(x => string.IsNullOrEmpty(x.Group)).ToArray();
-			if (noGroupConnections.Length > 0 && !this.EndPointGroups.Contains(noGroup)) {
+
+			// remove the noGroup item if all connections have a group
+			var noGroup = this.EndPointGroups.FirstOrDefault(i => i.GroupType == ConnectionGroupType.NoGroup);
+			if (
+				noGroup != null // NoGroup exists in the group list
+				&& noGroupConnections.Length == 0 // ...but all connections have a group
+				&& selectedGroup.GroupType != ConnectionGroupType.NoGroup // ...and it is not selected
+			) {
+				this.EndPointGroups.Remove(noGroup);
+			} else if (
+				noGroupConnections.Length > 0 // there are connections without a group
+				&& noGroup == null //...but there isn't a NoGroup item in the group list
+			) {
+				// add the noGroup item
+				noGroup = new(ConnectionGroupType.NoGroup, "[None]");
 				this.EndPointGroups.Add(noGroup);
 			}
 
+			// fetch all groups
 			ConnectionGroup[] groups = this.connectionRepo.FetchAllGroups();
 
-			//TODO: add and remove groups below can be optimized
-
-			// add any new groups
+			// add any missing groups from the known list
 			foreach (var group in groups) {
 				if (this.EndPointGroups.Any(x => x.Name == group.Name)) {
 					continue;
 				}
-				this.EndPointGroups.Add(new EndPointGroupViewModel(name: group.Name, isVirtual: false));
+				this.EndPointGroups.Add(new EndPointGroupViewModel(group.Type, name: group.Name));
 			}
 
 			// remove any groups that no longer exist
 			foreach (var group in this.EndPointGroups.ToArray()) {
-				if (group == allGroup) {
-					continue;
-				}
-				if (group == noGroup) {
+				if (group.GroupType != ConnectionGroupType.Custom) {
 					continue;
 				}
 				if (groups.All(x => x.Name != group.Name)) {
@@ -135,15 +153,15 @@
 
 			// update visible connections
 			IConnectionEndPoint[] groupConnections;
-			var selectedGroup = this.SelectedGroup ?? allGroup;
-			if (selectedGroup == allGroup) {
+			if (selectedGroup.GroupType == ConnectionGroupType.Everything) {
 				groupConnections = this.allConnections;
-			} else if (selectedGroup == noGroup) {
+			} else if (selectedGroup.GroupType == ConnectionGroupType.NoGroup) {
 				groupConnections = this.connectionRepo.FetchByGroup(string.Empty, this.allConnections);
 			} else {
 				groupConnections = this.connectionRepo.FetchByGroup(selectedGroup.Name, this.allConnections);
 			}
 
+			// create view models for the connections
 			var groupConnectionViewModels = groupConnections
 				.Select(this.BuildEndPointListItemViewModel)
 				.Where(c =>
@@ -159,17 +177,21 @@
 			this.ConnectionEndPoints.Clear();
 			this.ConnectionEndPoints.AddRange(groupConnectionViewModels);
 
-			this.SelectedGroupTitle = selectedGroup.Name ?? $"Connections: {groupConnectionViewModels.Length}";
+			this.SelectedGroupTitle = selectedGroup.Name;
 			this.ConnectionSummary = $"Connections: {groupConnectionViewModels.Length}";
-
 
 		}
 
 		private void AddRdpConnection() {
 
-
-			var group = this.SelectedGroup ?? allGroup;
-			var con = this.connectionRepo.Create(name: "", group: group.IsVirtual ? null : group.GetGroup());
+			var group = this.SelectedGroup;
+			var con = this.connectionRepo.Create(
+				name: string.Empty,
+				group:
+					group?.GroupType == ConnectionGroupType.Custom
+					? group.GetGroup()
+					: null
+			);
 
 			this.ConnectionEndPoints.Insert(0, this.BuildEndPointListItemViewModel(con));
 

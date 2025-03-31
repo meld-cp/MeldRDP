@@ -185,7 +185,7 @@
 				.Select(ep => ep.Group)
 				.Distinct()
 				.Where(groupName => !string.IsNullOrWhiteSpace(groupName))
-				.Select(groupName => new ConnectionGroup(groupName))
+				.Select(groupName => new ConnectionGroup(ConnectionGroupType.Custom, groupName))
 			];
 		}
 

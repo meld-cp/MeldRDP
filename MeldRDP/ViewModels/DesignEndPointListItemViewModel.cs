@@ -15,7 +15,7 @@
 	}
 
 	public class DesignEndPointGroupViewModel : EndPointGroupViewModel {
-		public DesignEndPointGroupViewModel() : base("Design End Point Group", false) { }
+		public DesignEndPointGroupViewModel() : base(ConnectionGroupType.Custom, "Design End Point Group") { }
 
 	}
 

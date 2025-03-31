@@ -4,15 +4,15 @@
 	public class EndPointGroupViewModel : ViewModelBase {
 
 		public string Name { get; set; }
-		public bool IsVirtual { get; }
+		public ConnectionGroupType GroupType { get; }
 
-		public EndPointGroupViewModel(string name, bool isVirtual) {
+		public EndPointGroupViewModel(ConnectionGroupType groupType, string name) {
+			this.GroupType = groupType;
 			this.Name = name;
-			this.IsVirtual = isVirtual;
 		}
 
 		public ConnectionGroup GetGroup() {
-			return new ConnectionGroup(this.Name = this.Name);
+			return new ConnectionGroup(Type: this.GroupType, Name: this.Name);
 		}
 	}
 }
