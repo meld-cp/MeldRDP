@@ -87,6 +87,40 @@
 			this.SetValue(key, TYPE_INT, $"{value}");
 		}
 
+		/// <summary>
+		/// Check keys with unexpected Key cases and fix them
+		/// </summary>
+		/// <param name="keys"></param>
+		/// <returns></returns>
+		public int NormaliseKeyCase(string[] keys) {
+
+			var count = 0;
+
+			foreach (var normKey in keys) {
+
+				var (recIdx, rec) = this.GetRecordWithIndex(normKey);
+				if (!recIdx.HasValue) {
+					continue; // key was not found, skip
+				}
+
+				// if we have an index, we should have a rec
+				System.Diagnostics.Debug.Assert(rec != null);
+
+				if (rec.Key.Equals(normKey, System.StringComparison.InvariantCulture)) {
+					continue; // keys are same case, skip
+				}
+
+				// need to fix the key case
+				this.Records[recIdx.Value] = rec with {
+					Key = normKey
+				};
+
+				count++;
+			}
+
+			return count;
+
+		}
 
 		// Private methods
 		private (int? Index, RdpFileFormatRecord? Rec) GetRecordWithIndex(string key) {

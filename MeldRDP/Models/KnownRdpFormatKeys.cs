@@ -24,27 +24,43 @@
 		#endregion Standard Keys
 
 
-		#region Devolutions Keys
-		//See: https://github.com/Devolutions/MsRdpEx
+		public static class Ex {
+			// Devolutions Extended Keys
+			// See: https://github.com/Devolutions/MsRdpEx
 
-		// EnableMouseJiggler:i:1 - enable the mouse jiggler (disabled by default)
-		public const string EnableMouseJiggler = "EnableMouseJiggler";
+			// EnableMouseJiggler:i:1 - enable the mouse jiggler (disabled by default)
+			public const string EnableMouseJiggler = "EnableMouseJiggler";
 
-		// MouseJigglerInterval:i:60 - set mouse jiggler interval in seconds (60 seconds by default)
-		public const string MouseJigglerInterval = "MouseJigglerInterval";
+			// MouseJigglerInterval:i:60 - set mouse jiggler interval in seconds (60 seconds by default)
+			public const string MouseJigglerInterval = "MouseJigglerInterval";
 
-		// MouseJigglerMethod:i:0 set mouse jiggler method (0 = mouse move (default), 1 = special key (F15))
-		public const string MouseJigglerMethod = "MouseJigglerMethod";
+			// MouseJigglerMethod:i:0 set mouse jiggler method (0 = mouse move (default), 1 = special key (F15))
+			public const string MouseJigglerMethod = "MouseJigglerMethod";
+
+			// AllowBackgroundInput:i:1 Specifies whether background input mode is enabled.
+			// When background input is enabled the client can accept input when the client
+			// does not have focus.
+			public const string AllowBackgroundInput = "AllowBackgroundInput";
 
 
-		#endregion Devolutions Keys
+			public static readonly string[] All = [
+				EnableMouseJiggler,
+				MouseJigglerInterval,
+				MouseJigglerMethod,
+				AllowBackgroundInput
+			];
+		}
 
-		#region Meld Keys
+		public static class Meld {
+			public const string Name = "MeldName";
+			public const string Group = "MeldGroup";
+			public const string BackgroundImageName = "MeldBackgroundImageName";
 
-		public const string MeldName = "MeldName";
-		public const string MeldGroup = "MeldGroup";
-		public const string MeldBackgroundImageName = "MeldBackgroundImageName";
-
-		#endregion Meld Keys
+			public static readonly string[] All = [
+				Name,
+				Group,
+				BackgroundImageName
+			];
+		}
 	}
 }

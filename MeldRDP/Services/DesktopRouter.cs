@@ -12,17 +12,28 @@
 		private readonly IRdpMstscService srvRdp;
 		private readonly IConnectionRepository connRepo;
 		private readonly IImageProvider imageProvider;
+		private readonly IRdpFileProcessor? rdpFileProcesser;
 
-		public DesktopRouter(IRdpMstscService srvRdp, IConnectionRepository connRepo, IImageProvider imageProvider) {
+		public DesktopRouter(
+			IRdpMstscService srvRdp,
+			IConnectionRepository connRepo,
+			IImageProvider imageProvider,
+			IRdpFileProcessor? rdpFileProcesser
+		) {
 			this.srvRdp = srvRdp;
 			this.connRepo = connRepo;
 			this.imageProvider = imageProvider;
+			this.rdpFileProcesser = rdpFileProcesser;
 		}
 
 		public void Connect(IConnectionEndPoint endPoint) {
 
 			if (endPoint is RdpFileConnectionEndPoint epRdp) {
+
+				this.rdpFileProcesser?.Process(epRdp.RdpFilepath);
+
 				_ = this.srvRdp.Connect(epRdp.RdpFilepath, null);
+
 				return;
 			}
 

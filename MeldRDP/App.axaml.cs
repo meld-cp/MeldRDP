@@ -43,7 +43,18 @@
 			var imagePath = Path.Combine(appPath, "Images");
 			var imageProvider = new DefaultImageProvider(imagePath);
 
-			this.DesktopRouter = new DesktopRouter(srvRdp: srvRdp, connRepo, imageProvider);
+			var normaliseRdpFileKeyCaseProcessor = new RdpFileNormaliseKeyCaseProcessor([
+					..KnownRdpFormatKeys.Ex.All,
+					..KnownRdpFormatKeys.Meld.All
+				]
+			);
+
+			this.DesktopRouter = new DesktopRouter(
+				srvRdp: srvRdp,
+				connRepo: connRepo,
+				imageProvider: imageProvider,
+				rdpFileProcesser: normaliseRdpFileKeyCaseProcessor
+			);
 
 			// create main view model
 			var mainViewModel = new MainViewModel(

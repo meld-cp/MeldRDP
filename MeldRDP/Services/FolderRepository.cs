@@ -51,11 +51,13 @@
 			var rdpFile = new RdpFormatFile(rdpEndPoint.RdpFilepath);
 			rdpFile.SetValue(KnownRdpFormatKeys.FullAddress, rdpEndPoint.FullAddress);
 
-			rdpFile.SetValue(KnownRdpFormatKeys.MeldName, rdpEndPoint.Name);
-			rdpFile.SetValue(KnownRdpFormatKeys.MeldGroup, rdpEndPoint.Group);
-			rdpFile.SetValue(KnownRdpFormatKeys.MeldBackgroundImageName, rdpEndPoint.BackgroundImageName);
-			rdpFile.SetValue(KnownRdpFormatKeys.EnableMouseJiggler, rdpEndPoint.EnableMouseJiggler ? 1 : 0);
-			rdpFile.SetValue(KnownRdpFormatKeys.MouseJigglerInterval, rdpEndPoint.MouseJigglerInterval);
+			rdpFile.SetValue(KnownRdpFormatKeys.Meld.Name, rdpEndPoint.Name);
+			rdpFile.SetValue(KnownRdpFormatKeys.Meld.Group, rdpEndPoint.Group);
+			rdpFile.SetValue(KnownRdpFormatKeys.Meld.BackgroundImageName, rdpEndPoint.BackgroundImageName);
+
+			rdpFile.SetValue(KnownRdpFormatKeys.Ex.EnableMouseJiggler, rdpEndPoint.EnableMouseJiggler ? 1 : 0);
+			rdpFile.SetValue(KnownRdpFormatKeys.Ex.AllowBackgroundInput, rdpEndPoint.EnableMouseJiggler ? 1 : 0);
+			rdpFile.SetValue(KnownRdpFormatKeys.Ex.MouseJigglerInterval, rdpEndPoint.MouseJigglerInterval);
 
 			rdpFile.SetValue(KnownRdpFormatKeys.UseMultimon, rdpEndPoint.SelectedMonitorsFromId.HasValue ? 1 : 0);
 			rdpFile.SetValue(
@@ -121,14 +123,14 @@
 
 			return new RdpFileConnectionEndPoint(
 				Id: id,
-				Name: rdpFile.GetStringValue(KnownRdpFormatKeys.MeldName) ?? "",
+				Name: rdpFile.GetStringValue(KnownRdpFormatKeys.Meld.Name) ?? "",
 				FullAddress: rdpFile.GetStringValue(KnownRdpFormatKeys.FullAddress) ?? "",
 				RdpFilepath: rdpFile.Path,
-				Group: rdpFile.GetStringValue(KnownRdpFormatKeys.MeldGroup) ?? "",
-				BackgroundImageName: rdpFile.GetStringValue(KnownRdpFormatKeys.MeldBackgroundImageName),
+				Group: rdpFile.GetStringValue(KnownRdpFormatKeys.Meld.Group) ?? "",
+				BackgroundImageName: rdpFile.GetStringValue(KnownRdpFormatKeys.Meld.BackgroundImageName),
 
-				EnableMouseJiggler: rdpFile.GetIntValue(KnownRdpFormatKeys.EnableMouseJiggler) == 1,
-				MouseJigglerInterval: rdpFile.GetIntValue(KnownRdpFormatKeys.MouseJigglerInterval),
+				EnableMouseJiggler: rdpFile.GetIntValue(KnownRdpFormatKeys.Ex.EnableMouseJiggler) == 1,
+				MouseJigglerInterval: rdpFile.GetIntValue(KnownRdpFormatKeys.Ex.MouseJigglerInterval),
 
 				SelectedMonitorsFromId: selectedMonitorsFromId,
 				SelectedMonitorsSpanCount: selectedMonitorsSpanCount
