@@ -76,7 +76,7 @@
 				HorizontalAlignment="Right"
 				Content="Find this app usefull?  Fuel the dev!"
 				Background="Transparent"
-				Foreground="Blue"
+				Foreground="{DynamicResource SystemAccentColor}"
 				Cursor="Hand"
 				Margin="20 0"
 				Command="{Binding SupportTheDevCommand}"
