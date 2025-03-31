@@ -77,7 +77,6 @@
 				Content="Find this app usefull?  Fuel the dev!"
 				Background="Transparent"
 				Foreground="{DynamicResource SystemAccentColor}"
-				Cursor="Hand"
 				Margin="20 0"
 				Command="{Binding SupportTheDevCommand}"
 			/>
@@ -111,6 +110,7 @@
 				/>
 				<Button
 					Content="_Add Connection"
+					Classes="accent"
 					Command="{Binding AddConnectionCommand}"
 				/>
 			</StackPanel>

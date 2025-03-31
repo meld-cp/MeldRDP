@@ -22,7 +22,6 @@
 		Margin="5"
 		VerticalAlignment="Stretch"
 		HorizontalAlignment="Stretch"
-		Cursor="Hand"
 		Command="{Binding ConnectCommand}"
 	>
 		<Border

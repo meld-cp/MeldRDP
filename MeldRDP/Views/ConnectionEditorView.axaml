@@ -85,12 +85,13 @@
 		<Image
 			Grid.RowSpan="99"
 			Grid.ColumnSpan="99"
-			Height="160"
+			Height="170"
 			VerticalAlignment="Top"
 			Source="{Binding BackgroundSource}"
 			Stretch="UniformToFill"
 			ZIndex="-999"
-			Opacity="0.25"
+			Opacity="0.3"
+			Margin="-10"
 		/>
 
 
