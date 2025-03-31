@@ -32,14 +32,17 @@
 			var appSettings = appSettingsRepo.Load();
 
 
-			var connectionsPath = Path.Combine(appPath, "Connections");
-			var imagePath = Path.Combine(appPath, "Images");
 
 			// create services
 			var procMon = new ProcessMonitorService(TimeSpan.FromMilliseconds(500));
 			var srvRdp = new RdpExMstscService(procMon, appPath);
+
+			var connectionsPath = Path.Combine(appPath, "Connections");
 			var connRepo = new FolderRepository(connectionsPath);
+
+			var imagePath = Path.Combine(appPath, "Images");
 			var imageProvider = new DefaultImageProvider(imagePath);
+
 			this.DesktopRouter = new DesktopRouter(srvRdp: srvRdp, connRepo, imageProvider);
 
 			// create main view model
