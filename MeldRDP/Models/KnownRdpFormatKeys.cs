@@ -27,6 +27,7 @@
 		public static class Ex {
 			// Devolutions Extended Keys
 			// See: https://github.com/Devolutions/MsRdpEx
+			// See: https://github.com/Devolutions/MsRdpEx/blob/master/dll/RdpSettings.cpp
 
 			// EnableMouseJiggler:i:1 - enable the mouse jiggler (disabled by default)
 			public const string EnableMouseJiggler = "EnableMouseJiggler";
