@@ -19,13 +19,13 @@
 			// get bin path
 			this.binPath = Path.Combine(basePath, "mstscex.exe");
 			if (!File.Exists(this.binPath)) {
-				throw new System.Exception($"'{this.binPath}' not found");
+				throw new Exception($"'{this.binPath}' not found");
 			}
 
 			// check dll exists
 			var dllPath = Path.Combine(basePath, "MsRdpEx.dll");
 			if (!File.Exists(dllPath)) {
-				throw new System.Exception($"'{dllPath}' not found");
+				throw new Exception($"'{dllPath}' not found");
 			}
 
 			this.procMon = procMon;

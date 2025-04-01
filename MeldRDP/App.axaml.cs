@@ -24,7 +24,7 @@
 
 			// get app path
 			var appPath = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory)
-				?? throw new System.Exception("Could not determine application path")
+				?? throw new Exception("Could not determine application path")
 			;
 
 			// Load app settings

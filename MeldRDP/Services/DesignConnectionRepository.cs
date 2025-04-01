@@ -10,7 +10,7 @@
 		}
 
 		public void Save(IConnectionEndPoint endPoint) {
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 
 		public IConnectionEndPoint[] FetchAll() {
@@ -24,11 +24,11 @@
 		}
 
 		public void Remove(IConnectionEndPoint endPoint) {
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 
 		public void Update(IConnectionEndPoint endPoint) {
-			throw new System.NotImplementedException();
+			throw new NotImplementedException();
 		}
 
 		public T Create<T>() where T : IConnectionEndPoint {

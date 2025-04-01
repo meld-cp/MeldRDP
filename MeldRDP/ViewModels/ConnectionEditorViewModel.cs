@@ -10,7 +10,6 @@
 	using ReactiveUI.Fody.Helpers;
 
 	public class ConnectionEditorViewModel : ViewModelBase {
-		private readonly IImageProvider backgroundImageProvider;
 
 		[Reactive]
 		public string Id { get; set; }
@@ -28,8 +27,6 @@
 		public Bitmap? BackgroundSource { get; set; }
 
 		public ConnectionEditorViewModel(IConnectionEndPoint endpoint, IImageProvider backgroundImageProvider) {
-			this.backgroundImageProvider = backgroundImageProvider;
-
 			this.Id = endpoint.Id;
 			this.Name = endpoint.Name;
 			this.Group = endpoint.Group;
