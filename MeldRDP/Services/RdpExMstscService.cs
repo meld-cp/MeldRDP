@@ -43,7 +43,33 @@
 		}
 
 		public Process Connect(string path, Action? OnExitAction) {
-			var proc = Process.Start(this.binPath, [string.Concat('"', path, '"')]);
+			var procStartInfo = new ProcessStartInfo {
+				FileName = this.binPath,
+				Arguments = string.Concat('"', path, '"'),
+				UseShellExecute = false,
+			};
+
+			procStartInfo.EnvironmentVariables.Add("MSRDPEX_LOG_ENABLED", "1");
+
+			/*
+				Used => TRACE, DEBUG,
+				Unused => INFO, WARN, ERROR, FATAL
+
+				#define MSRDPEX_LOG_TRACE   0
+				#define MSRDPEX_LOG_DEBUG   1
+
+				#define MSRDPEX_LOG_INFO    2
+				#define MSRDPEX_LOG_WARN    3
+				#define MSRDPEX_LOG_ERROR   4
+				#define MSRDPEX_LOG_FATAL   5
+				#define MSRDPEX_LOG_OFF     6
+			*/
+			procStartInfo.EnvironmentVariables.Add("MSRDPEX_LOG_LEVEL", "1");
+			procStartInfo.EnvironmentVariables.Add("MSRDPEX_LOG_FILE_PATH", path + ".log");
+
+			var proc = Process.Start(procStartInfo)
+				?? throw new Exception("Failed to start process")
+			;
 			if (OnExitAction != null) {
 				this.procMon.MonitorOnExit(proc, OnExitAction);
 			}
