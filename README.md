@@ -10,7 +10,7 @@ community. If it helps you, please consider [buying me a coffee](https://buymeac
 The link can also be found directly within the application.  
 
 **Note:** The software is free for personal use. However, by contributing PRs or donating to
-the project, you are free to use it commercially. This helps ensure the project's long-term
+the project, you can use it commercially. This helps ensure the project's long-term
 sustainability. For more details, see the [license](LICENCE.md).
 
 
