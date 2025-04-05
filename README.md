@@ -2,16 +2,19 @@
 **A Fast, Portable Remote Desktop Manager**
 
 **Meld RDP** is a lightweight, portable application designed to simplify the management of
-your remote desktop (RDP) connections. I built this tool to solve a problem I faced,
-existing RDP managers were either too slow, too complex, or lacked portability.  
+your remote desktop client (`*.rdp`) connections. 
 
-I believe this tool will be useful to many others, which is why I’m sharing it with the
-community. If it helps you, please consider [buying me a coffee](https://buymeacoffee.com/cleon).
-The link can also be found directly within the application.  
+I created this tool because I was frustrated with the current connection managers out there -
+they were either too slow, overly complex, or lacked portability.
 
-**Note:** The software is free for personal use. However, by contributing PRs or donating to
-the project, you can use it commercially. This helps ensure the project's long-term
-sustainability. For more details, see the [license](LICENCE.md).
+It's free for personal use. For commercial use, I'm asking people to either contribute
+a PR or [donate](https://buymeacoffee.com/cleon) a few dollars to help support development.
+More details are in the [license](LICENCE.md).
+
+I'm sharing this because I think it could help others who need a no-fuss remote desktop
+manager.
+
+Thanks for checking it out!
 
 
 
@@ -22,6 +25,8 @@ sustainability. For more details, see the [license](LICENCE.md).
 - [x] Quick startup
 - [x] Simple to use
 - [x] Keyboard shortcuts for quick connections
+- [x] Connection Groups
+- [x] Quick Search
 - [x] Multi-monitor span support
 - [x] Keep session alive
 - [x] Light and Dark theme support (follows OS setting)
@@ -50,19 +55,21 @@ to start the connection.
 
 <img src="Assets/screenshots/main-window-example.png"/>
 
-- All RDP files are saved in the `Connections` folder in the same directory as the application.
-
-<img src="Assets/screenshots/dir.png"/>
-
 ## Notes
 - For the 'Keep session alive' feature to work, this application ships with `MsRdpEx.dll`
 and `mstscex.exe` which are developed and maintained by Devolutions
 (https://github.com/Devolutions/MsRdpEx)
 
+- All RDP files are saved in the `Connections` folder in the same directory as the application.
+You can also simply copy your existing `*.rdp` files into this location to 'import' them.
+
+<img src="Assets/screenshots/dir.png"/>
+
+
 
 
 ## Keyboard Shortcuts
-- <kbd>Alt + a</kbd> - Add Connection
+- <kbd>Alt + a</kbd> - Add a connection
 - <kbd>Ctrl + 1</kbd> to <kbd>Ctrl + 0</kbd> - Connect to the item in that list position (note
 that <kbd>Ctrl + 0</kbd> will connect to the 10th connection in the visible list)
 - <kbd>Ctrl + r</kbd> - Refresh the connection list
