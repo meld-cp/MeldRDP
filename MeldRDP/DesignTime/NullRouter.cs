@@ -1,7 +1,8 @@
-﻿namespace MeldRDP.Services {
+﻿namespace MeldRDP.DesignTime {
 	using System;
 
 	using MeldRDP.Models;
+	using MeldRDP.Services;
 	using MeldRDP.ViewModels;
 
 	public class NullRouter : IRouter {
@@ -16,7 +17,7 @@
 		}
 
 		public void OpenSupportTheDevLink() {
-			
+
 		}
 
 		public void ShowMessage(MessageWindowViewModel vm) {

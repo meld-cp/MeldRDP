@@ -1,5 +1,6 @@
-﻿namespace MeldRDP.Services {
+﻿namespace MeldRDP.DesignTime {
 	using MeldRDP.Models;
+	using MeldRDP.Services;
 
 	public class NullConnectionRepository : IConnectionRepository {
 		public IConnectionEndPoint Create(string name, ConnectionGroup? group) {

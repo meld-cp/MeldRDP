@@ -53,7 +53,7 @@
 			this.router = router;
 			this.connectionRepo = connectionRepo;
 			this.backgroundProvider = backgroundProvider;
-			
+
 			this.AddConnectionCommand = ReactiveCommand.Create(this.AddRdpConnection);
 			this.RefreshConnectionsCommand = ReactiveCommand.Create(this.RefreshConnections);
 			this.SupportTheDevCommand = ReactiveCommand.Create(router.OpenSupportTheDevLink);

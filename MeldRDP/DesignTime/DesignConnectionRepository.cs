@@ -1,8 +1,9 @@
-﻿namespace MeldRDP.Services {
+﻿namespace MeldRDP.DesignTime {
 	using System;
 	using System.Linq;
 
 	using MeldRDP.Models;
+	using MeldRDP.Services;
 
 	public class DesignConnectionRepository : IConnectionRepository {
 		public IConnectionEndPoint Create(string name, ConnectionGroup? group) {

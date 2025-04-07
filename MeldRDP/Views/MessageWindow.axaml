@@ -4,6 +4,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:vm="clr-namespace:MeldRDP.ViewModels"
+	xmlns:vmd="clr-namespace:MeldRDP.DesignTime"
 	mc:Ignorable="d"
 	x:Class="MeldRDP.MessageWindow"
 	Title="{Binding Title}"
@@ -14,7 +15,7 @@
 	Icon="/Assets/logo.ico"
 >
 	<Design.DataContext>
-		<vm:DesignMessageWindowViewModel/>
+		<vmd:DesignMessageWindowViewModel/>
 	</Design.DataContext>
 
 	<Grid

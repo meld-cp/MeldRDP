@@ -18,7 +18,7 @@
 			return Path.Combine(basePath, relFilename);
 		}
 
-		protected IEnumerable<string> EnumerateFiles( string searchPattern, SearchOption searchOption) {
+		protected IEnumerable<string> EnumerateFiles(string searchPattern, SearchOption searchOption) {
 			return Directory.EnumerateFiles(
 				path: basePath,
 				searchPattern: searchPattern,

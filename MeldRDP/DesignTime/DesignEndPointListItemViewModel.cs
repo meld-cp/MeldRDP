@@ -1,6 +1,6 @@
-﻿namespace MeldRDP.ViewModels {
+﻿namespace MeldRDP.DesignTime {
 	using MeldRDP.Models;
-	using MeldRDP.Services;
+	using MeldRDP.ViewModels;
 
 	public class DesignEndPointListItemViewModel : EndPointListItemViewModel {
 		public DesignEndPointListItemViewModel() : base(

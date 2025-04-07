@@ -1,9 +1,9 @@
-﻿namespace MeldRDP.ViewModels {
+﻿namespace MeldRDP.DesignTime {
 	using System.Linq;
 
 	using DynamicData;
 
-	using MeldRDP.Services;
+	using MeldRDP.ViewModels;
 
 
 	public class DesignMainViewModel : MainViewModel {
