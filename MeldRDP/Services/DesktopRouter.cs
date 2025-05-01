@@ -59,16 +59,19 @@
 		}
 
 		public void Edit(
+			string editType,
 			IConnectionEndPoint endPoint,
-			bool extendedEdit,
 			Action? OnEditingCompleteAction
 		) {
 
-			if (extendedEdit && endPoint is RdpFileConnectionEndPoint epRdp) {
-				this.srvRdp.EditRdpFile(epRdp.RdpFilepath, this.RunOnMainThread(OnEditingCompleteAction));
-				return;
+			if (endPoint is RdpFileConnectionEndPoint epRdp) {
+				if (editType == DefaultEditTypes.Extended) {
+					this.srvRdp.EditRdpFile(epRdp.RdpFilepath, this.RunOnMainThread(OnEditingCompleteAction));
+					return;
+				}
 			}
 
+			// Use the default editor
 			var editWindow = new ConnectionEditorWindow {
 				DataContext = new ConnectionEditorWindowViewModel(this.connRepo, endPoint, this.imageProvider)
 			};

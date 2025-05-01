@@ -1,5 +1,6 @@
 ﻿namespace MeldRDP.ViewModels {
 	using System;
+	using System.Collections.ObjectModel;
 	using System.Windows.Input;
 
 	using Avalonia.Media.Imaging;
@@ -31,17 +32,20 @@
 		public Bitmap? BackgroundSource { get; set; }
 
 
-
 		public ICommand ConnectCommand { get; }
 		public ICommand EditCommand { get; }
 
-		public string ExtendedEditLabel { get; } = "Edit (ex.)";
 		public ICommand ExtendedEditCommand { get; }
+
+
+		[Reactive]
+		public ObservableCollection<ExtendedEditModel> ExtendedEdits { get; private set; }
 
 		public EndPointListItemViewModel(
 			IRouter router,
 			IConnectionEndPoint endPoint,
 			string extendedInfo,
+			ExtendedEditModel[] extendedEdits,
 			Bitmap? backgroundImage,
 			Action? OnEditingCompleteAction
 		) {
@@ -52,22 +56,27 @@
 			this.Id = endPoint.Id;
 			this.Name = endPoint.Name;
 			this.ExtendedInfo = extendedInfo;
+
+
 			this.Group = endPoint.Group;
 			this.BackgroundSource = backgroundImage;
 
 			this.ConnectCommand = ReactiveCommand.Create(this.Connect);
-			this.EditCommand = ReactiveCommand.Create(() => this.Edit(false));
-			this.ExtendedEditCommand = ReactiveCommand.Create(() => this.Edit(true));
+			this.EditCommand = ReactiveCommand.Create(() => this.Edit(editType: DefaultEditTypes.InApp));
+			this.ExtendedEditCommand = ReactiveCommand.Create<string>(this.Edit);
+
+			this.ExtendedEdits = [.. extendedEdits];
+
 		}
 
 		private void Connect() {
 			this.router.Connect(this.endPoint);
 		}
 
-		private void Edit(bool extended) {
+		private void Edit(string editType) {
 			this.router.Edit(
+				editType: editType,
 				endPoint: this.endPoint,
-				extendedEdit: extended,
 				OnEditingCompleteAction: this.onEditingCompleteAction
 			);
 		}

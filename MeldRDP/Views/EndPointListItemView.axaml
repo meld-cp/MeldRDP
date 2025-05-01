@@ -4,12 +4,14 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d"
+	xmlns:m="clr-namespace:MeldRDP.Models"
 	xmlns:vm="clr-namespace:MeldRDP.ViewModels"
 	xmlns:vmd="clr-namespace:MeldRDP.DesignTime"
 	x:Class="MeldRDP.Views.EndPointListItemView"
 	x:DataType="vm:EndPointListItemViewModel"
 	Width="300"
 	Height="200"
+	x:Name="root"
 >
 	<Design.DataContext>
 		<!-- This only sets the DataContext for the previewer in an IDE,
@@ -58,16 +60,26 @@
 							Orientation="Horizontal"
 							Spacing="10"
 						>
-							<Button
-								Focusable="False"
-								Content="Edit"
-								Command="{Binding EditCommand}"
-							/>
-							<Button
-								Focusable="False"
-								Content="{Binding ExtendedEditLabel}"
-								Command="{Binding ExtendedEditCommand}"
-							/>
+							<SplitButton Content="Edit" Command="{Binding EditCommand}">
+								<SplitButton.Flyout>
+									<MenuFlyout ItemsSource="{Binding ExtendedEdits}">
+										<MenuFlyout.ItemTemplate>
+											<DataTemplate DataType="m:ExtendedEditModel">
+												<MenuItem>
+													<!-- Styles workaround for: https://github.com/AvaloniaUI/Avalonia/issues/18032-->
+													<MenuItem.Styles>
+														<Style Selector="MenuItem" x:DataType="m:ExtendedEditModel">
+															<Setter Property="Header" Value="{Binding Label}"/>
+															<Setter Property="Command" Value="{Binding $parent.((vm:EndPointListItemViewModel)DataContext).ExtendedEditCommand}"/>
+															<Setter Property="CommandParameter" Value="{Binding EditType}"/>
+														</Style>
+													</MenuItem.Styles>
+												</MenuItem>
+											</DataTemplate>							
+										</MenuFlyout.ItemTemplate>
+									</MenuFlyout>
+								</SplitButton.Flyout>
+							</SplitButton>
 						</StackPanel>
 
 					</StackPanel>

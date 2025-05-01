@@ -1,5 +1,7 @@
-﻿namespace MeldRDP.Models {
+﻿namespace MeldRDP.DesignTime {
 	using System;
+
+	using MeldRDP.Models;
 
 	public record DesignConnectionEndPoint : IConnectionEndPoint {
 		public string Id { get; } = Guid.NewGuid().ToString();

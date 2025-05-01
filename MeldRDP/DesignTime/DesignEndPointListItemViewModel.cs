@@ -7,6 +7,7 @@
 			router: new NullRouter(),
 			endPoint: new DesignConnectionEndPoint(),
 			extendedInfo: "Extended Info",
+			extendedEdits: [new("Extended", ""), new("Text Editor", "")],
 			backgroundImage: null,
 			OnEditingCompleteAction: null
 		) {
@@ -15,7 +16,10 @@
 	}
 
 	public class DesignEndPointGroupViewModel : EndPointGroupViewModel {
-		public DesignEndPointGroupViewModel() : base(ConnectionGroupType.Custom, "Design End Point Group") { }
+		public DesignEndPointGroupViewModel() : base(
+			groupType: ConnectionGroupType.Custom,
+			name: "Design End Point Group"
+		) { }
 
 	}
 

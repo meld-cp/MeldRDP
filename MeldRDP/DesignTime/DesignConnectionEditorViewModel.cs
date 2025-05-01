@@ -1,5 +1,4 @@
 ﻿namespace MeldRDP.DesignTime {
-	using MeldRDP.Models;
 	using MeldRDP.ViewModels;
 
 	public class DesignConnectionEditorViewModel : ConnectionEditorViewModel {

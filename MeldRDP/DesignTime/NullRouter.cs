@@ -10,8 +10,8 @@
 		}
 
 		public void Edit(
+			string editType,
 			IConnectionEndPoint endPoint,
-			bool extendedEdit,
 			Action? OnEditingCompleteAction
 		) {
 		}

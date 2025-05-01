@@ -82,10 +82,27 @@
 		}
 
 		private EndPointListItemViewModel BuildEndPointListItemViewModel(IConnectionEndPoint endPoint) {
+
+			if (endPoint is RdpFileConnectionEndPoint epRdp) {
+				return new EndPointListItemViewModel(
+					router: this.router,
+					endPoint: endPoint,
+					extendedInfo: epRdp.FullAddress,
+					extendedEdits: [
+						new(
+							label: "MSTSC Props.",
+							editType: DefaultEditTypes.Extended
+						)],
+					backgroundImage: this.backgroundProvider.Fetch(endPoint.BackgroundImageName),
+					OnEditingCompleteAction: this.RefreshConnections
+				);
+			}
+
 			return new EndPointListItemViewModel(
 				router: this.router,
 				endPoint: endPoint,
-				extendedInfo: endPoint is RdpFileConnectionEndPoint epRdp ? epRdp.FullAddress : "",
+				extendedInfo: "",
+				extendedEdits: [],
 				backgroundImage: this.backgroundProvider.Fetch(endPoint.BackgroundImageName),
 				OnEditingCompleteAction: this.RefreshConnections
 			);
@@ -196,8 +213,8 @@
 			this.ConnectionEndPoints.Insert(0, this.BuildEndPointListItemViewModel(con));
 
 			this.router.Edit(
+				editType: DefaultEditTypes.Extended,
 				endPoint: con,
-				extendedEdit: true,
 				OnEditingCompleteAction: () => {
 					// refresh connections after editing
 					this.RefreshConnections();
