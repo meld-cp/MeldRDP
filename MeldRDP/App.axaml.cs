@@ -50,6 +50,7 @@
 			);
 
 			this.DesktopRouter = new DesktopRouter(
+				procMon: procMon,
 				srvRdp: srvRdp,
 				connRepo: connRepo,
 				imageProvider: imageProvider,

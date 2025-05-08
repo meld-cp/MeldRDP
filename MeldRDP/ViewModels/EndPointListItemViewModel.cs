@@ -34,7 +34,6 @@
 
 		public ICommand ConnectCommand { get; }
 		public ICommand EditCommand { get; }
-
 		public ICommand ExtendedEditCommand { get; }
 
 
@@ -62,7 +61,7 @@
 			this.BackgroundSource = backgroundImage;
 
 			this.ConnectCommand = ReactiveCommand.Create(this.Connect);
-			this.EditCommand = ReactiveCommand.Create(() => this.Edit(editType: DefaultEditTypes.InApp));
+			this.EditCommand = ReactiveCommand.Create(() => this.Edit(editType: ConnectionEditTypes.InApp));
 			this.ExtendedEditCommand = ReactiveCommand.Create<string>(this.Edit);
 
 			this.ExtendedEdits = [.. extendedEdits];

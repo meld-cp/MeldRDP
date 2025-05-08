@@ -1,5 +1,5 @@
 ﻿namespace MeldRDP.Models {
-	public static class DefaultEditTypes {
+	public static class ConnectionEditTypes {
 		public const string InApp = "inApp";
 		public const string Extended = "mstscEx";
 		public const string TextEditor = "textEditor";

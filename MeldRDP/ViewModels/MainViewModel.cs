@@ -91,8 +91,13 @@
 					extendedEdits: [
 						new(
 							label: "MSTSC Props.",
-							editType: DefaultEditTypes.Extended
-						)],
+							editType: ConnectionEditTypes.Extended
+						),
+						new(
+							label: "Text Editor",
+							editType: ConnectionEditTypes.TextEditor
+						)
+					],
 					backgroundImage: this.backgroundProvider.Fetch(endPoint.BackgroundImageName),
 					OnEditingCompleteAction: this.RefreshConnections
 				);
@@ -213,7 +218,7 @@
 			this.ConnectionEndPoints.Insert(0, this.BuildEndPointListItemViewModel(con));
 
 			this.router.Edit(
-				editType: DefaultEditTypes.Extended,
+				editType: ConnectionEditTypes.Extended,
 				endPoint: con,
 				OnEditingCompleteAction: () => {
 					// refresh connections after editing

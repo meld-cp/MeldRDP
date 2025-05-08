@@ -9,17 +9,20 @@
 	using MeldRDP.ViewModels;
 
 	public class DesktopRouter : IRouter {
+		private readonly ProcessMonitorService procMon;
 		private readonly IRdpMstscService srvRdp;
 		private readonly IConnectionRepository connRepo;
 		private readonly IImageProvider imageProvider;
 		private readonly IRdpFileProcessor? rdpFileProcesser;
 
 		public DesktopRouter(
+			ProcessMonitorService procMon,
 			IRdpMstscService srvRdp,
 			IConnectionRepository connRepo,
 			IImageProvider imageProvider,
 			IRdpFileProcessor? rdpFileProcesser
 		) {
+			this.procMon = procMon;
 			this.srvRdp = srvRdp;
 			this.connRepo = connRepo;
 			this.imageProvider = imageProvider;
@@ -64,28 +67,57 @@
 			Action? OnEditingCompleteAction
 		) {
 
-			if (endPoint is RdpFileConnectionEndPoint epRdp) {
-				if (editType == DefaultEditTypes.Extended) {
-					this.srvRdp.EditRdpFile(epRdp.RdpFilepath, this.RunOnMainThread(OnEditingCompleteAction));
+			switch (editType) {
+				case ConnectionEditTypes.InApp:
+					// Use the default editor
+					var editWindow = new ConnectionEditorWindow {
+						DataContext = new ConnectionEditorWindowViewModel(this.connRepo, endPoint, this.imageProvider)
+					};
+
+					if (OnEditingCompleteAction != null) {
+						editWindow.Closed += (sender, args) => {
+							OnEditingCompleteAction?.Invoke();
+						};
+					}
+
+					this.ShowWindowWithOwner(editWindow);
 					return;
-				}
+
+
+				case ConnectionEditTypes.Extended: {
+						if (endPoint is RdpFileConnectionEndPoint epRdp) {
+							this.srvRdp.EditRdpFile(
+								path: epRdp.RdpFilepath,
+								OnExitAction: this.RunOnMainThread(OnEditingCompleteAction)
+							);
+							return;
+						}
+
+						break;
+					}
+
+				case ConnectionEditTypes.TextEditor: {
+						if (endPoint is RdpFileConnectionEndPoint epRdp) {
+							this.OpenTextEditor(epRdp.RdpFilepath, this.RunOnMainThread(OnEditingCompleteAction));
+							return;
+						}
+
+						break;
+					}
+
 			}
 
-			// Use the default editor
-			var editWindow = new ConnectionEditorWindow {
-				DataContext = new ConnectionEditorWindowViewModel(this.connRepo, endPoint, this.imageProvider)
-			};
+			throw new NotImplementedException($"Edit type '{editType}' not implemented for '{endPoint.GetType().Name}'");
 
-			if (OnEditingCompleteAction != null) {
-				editWindow.Closed += (sender, args) => {
-					OnEditingCompleteAction();
-				};
-			}
-
-
-			this.ShowWindowWithOwner(editWindow);
 		}
 
+		private void OpenTextEditor(string filepath, Action? onEditingCompleteAction) {
+			// TODO: Use the text editor path from settings
+			var proc = Process.Start("notepad.exe", [filepath]);
+			if (onEditingCompleteAction != null) {
+				this.procMon.MonitorOnExit(proc, onEditingCompleteAction);
+			}
+		}
 
 		public void ShowMessage(MessageWindowViewModel vm) {
 			var window = new MessageWindow {
