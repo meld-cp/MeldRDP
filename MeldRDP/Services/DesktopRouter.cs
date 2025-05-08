@@ -91,6 +91,9 @@
 			var window = new MessageWindow {
 				DataContext = vm
 			};
+			vm.OnClosedHandler += (sender, result) => {
+				window.Close();
+			};
 			this.ShowWindowWithOwner(window);
 		}
 

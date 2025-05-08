@@ -36,8 +36,8 @@
 			HorizontalAlignment="Right"
 			VerticalAlignment="Bottom"
 		>
-			<Button Content="Ok" Command="{Binding OkCommand}" MinWidth="80" HorizontalContentAlignment="Center"/>
-			<Button Content="Cancel" Command="{Binding CancelCommand}" MinWidth="80" HorizontalContentAlignment="Center"/>
+			<Button IsDefault="True" Content="Ok" Command="{Binding OkCommand}" MinWidth="80" HorizontalContentAlignment="Center"/>
+			<Button IsCancel="True" IsVisible="{Binding CanCancel}" Content="Cancel" Command="{Binding CancelCommand}" MinWidth="80" HorizontalContentAlignment="Center"/>
 		</StackPanel>
 	</Grid>
 </Window>

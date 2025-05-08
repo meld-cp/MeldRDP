@@ -36,9 +36,10 @@
 			Console.WriteLine($"An error occurred: {ex.Message}\n\n{ex.StackTrace}");
 
 			if (Application.Current is App app && app.DesktopRouter is IRouter router) {
-				router.ShowMessage(new MessageWindowViewModel("An error occurred", ex.Message) {
-					Details = ex.StackTrace
-				});
+				var msgVm = new MessageWindowViewModel("An error occurred", ex.Message, canCancel: false) {
+					Details = ex.StackTrace,
+				};
+				router.ShowMessage(msgVm);
 			}
 		}
 
