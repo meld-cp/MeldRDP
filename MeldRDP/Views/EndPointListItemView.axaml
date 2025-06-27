@@ -109,6 +109,7 @@
 							Data="{StaticResource pin_regular}"
 							IsVisible="{Binding !IsPinned}"
 							ToolTip.Tip="Pin"
+							Opacity="0.30"
 						/>
 						<PathIcon
 							Width="16"
