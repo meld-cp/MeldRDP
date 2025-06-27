@@ -1,5 +1,6 @@
 ﻿namespace MeldRDP.Services {
 	using System;
+	using System.Diagnostics;
 
 	using MeldRDP.Models;
 
@@ -35,6 +36,17 @@
 			switch (editType) {
 				case ConnectionEditTypes.InApp:
 					router.OpenInAppEditor(endPoint);
+					return;
+
+				case ConnectionEditTypes.ShowInFileExplorer:
+					// select file in file explorer
+					Process.Start(
+						new ProcessStartInfo {
+							FileName = "explorer.exe",
+							Arguments = $"/select,\"{epRdp.RdpFilepath}\"",
+							UseShellExecute = true
+						}
+					);
 					return;
 
 

@@ -65,9 +65,15 @@
 							Orientation="Horizontal"
 							Spacing="10"
 						>
-							<SplitButton Content="Edit" Command="{Binding EditCommand}">
+							<SplitButton
+								Content="Edit"
+								Command="{Binding EditCommand}"
+							>
 								<SplitButton.Flyout>
-									<MenuFlyout ItemsSource="{Binding ExtendedEdits}">
+									<MenuFlyout
+										ItemsSource="{Binding ExtendedEdits}"
+										HorizontalOffset="100"
+									>
 										<MenuFlyout.ItemTemplate>
 											<DataTemplate DataType="m:ExtendedEditModel">
 												<MenuItem>

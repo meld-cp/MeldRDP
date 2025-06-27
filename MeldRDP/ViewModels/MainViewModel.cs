@@ -107,6 +107,11 @@
 							label: "Text Editor",
 							editType: ConnectionEditTypes.TextEditor
 						)
+						,
+						new(
+							label: "Show In File Explorer",
+							editType: ConnectionEditTypes.ShowInFileExplorer
+						)
 					],
 					backgroundImage: this.backgroundProvider.Fetch(endPoint.BackgroundImageName),
 					isPinned: epRdp.IsPinned
