@@ -2,16 +2,17 @@
 	using System;
 
 	using MeldRDP.Models;
+	using MeldRDP.Services;
 	using MeldRDP.ViewModels;
 
 	public class DesignEndPointListItemViewModel : EndPointListItemViewModel {
 		public DesignEndPointListItemViewModel() : base(
-			router: new NullRouter(),
+			connectionActionHandler: new NullConnectionActionHandler(),
 			endPoint: new DesignConnectionEndPoint(),
 			extendedInfo: "Extended Info",
 			extendedEdits: [new("Extended", ""), new("Text Editor", "")],
 			backgroundImage: null,
-			isPinned: Random.Shared.Next(0,1)==1
+			isPinned: Random.Shared.Next(0, 1) == 1
 		) {
 			this.Name = "Design End Point";
 		}

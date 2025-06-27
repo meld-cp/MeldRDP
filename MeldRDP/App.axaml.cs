@@ -51,17 +51,24 @@
 
 			this.DesktopRouter = new DesktopRouter(
 				procMon: procMon,
-				srvRdp: srvRdp,
 				connRepo: connRepo,
-				imageProvider: imageProvider,
-				rdpFileProcesser: normaliseRdpFileKeyCaseProcessor
+				imageProvider: imageProvider
+			);
+
+			var rdpConnectionActionHandler = new RdpFileConnectionEndPointActionHandler(
+				router: this.DesktopRouter,
+				rdpFileProcesser: normaliseRdpFileKeyCaseProcessor,
+				srvRdp: srvRdp,
+				connRepo: connRepo
 			);
 
 			// create main view model
 			var mainViewModel = new MainViewModel(
 				router: this.DesktopRouter,
 				connectionRepo: connRepo,
-				backgroundProvider: imageProvider
+				backgroundProvider: imageProvider,
+				defaultConnectionEndPointActionHandler: new DefaultConnectionEndPointActionHandler(),
+				rdpFileConnectionEndPointActionHandler: rdpConnectionActionHandler
 			);
 
 			if (this.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop) {

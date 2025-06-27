@@ -11,7 +11,7 @@
 	using ReactiveUI.Fody.Helpers;
 
 	public class EndPointListItemViewModel : ViewModelBase {
-		private readonly IRouter router;
+		private readonly IConnectionEndPointActionHandler actionHandler;
 		private readonly IConnectionEndPoint endPoint;
 
 		[Reactive]
@@ -43,14 +43,14 @@
 		public ObservableCollection<ExtendedEditModel> ExtendedEdits { get; private set; }
 
 		public EndPointListItemViewModel(
-			IRouter router,
+			IConnectionEndPointActionHandler connectionActionHandler,
 			IConnectionEndPoint endPoint,
 			string extendedInfo,
 			ExtendedEditModel[] extendedEdits,
 			Bitmap? backgroundImage,
 			bool isPinned
 		) {
-			this.router = router;
+			this.actionHandler = connectionActionHandler;
 			this.endPoint = endPoint;
 
 			this.Id = endPoint.Id;
@@ -73,15 +73,15 @@
 
 		private void TogglePinned() {
 			this.IsPinned = !this.IsPinned;
-			this.router.SetPinned( this.endPoint, this.IsPinned );
+			this.actionHandler.SetPinned(this.endPoint, this.IsPinned);
 		}
 
 		private void Connect() {
-			this.router.Connect(this.endPoint);
+			this.actionHandler.Connect(this.endPoint);
 		}
 
 		private void Edit(string editType) {
-			this.router.Edit(
+			this.actionHandler.Edit(
 				editType: editType,
 				endPoint: this.endPoint,
 				onCompleteAction: null

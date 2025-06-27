@@ -11,7 +11,9 @@
 		public DesignMainViewModel() : base(
 			router: new NullRouter(),
 			connectionRepo: new DesignConnectionRepository(),
-			backgroundProvider: new NullImageProvider()
+			backgroundProvider: new NullImageProvider(),
+			defaultConnectionEndPointActionHandler: null,
+			rdpFileConnectionEndPointActionHandler: null
 		) {
 
 			this.EndPointGroups.AddRange(

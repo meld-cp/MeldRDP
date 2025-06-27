@@ -16,9 +16,11 @@
 
 	public class MainViewModel : ViewModelBase, IActivatableViewModel {
 
-		private readonly IRouter router;
 		private readonly IConnectionRepository connectionRepo;
 		private readonly IImageProvider backgroundProvider;
+		private readonly DefaultConnectionEndPointActionHandler? defaultConnectionEndPointActionHandler;
+		private readonly RdpFileConnectionEndPointActionHandler? rdpFileConnectionEndPointActionHandler;
+
 		private IConnectionEndPoint[] allConnections = [];
 
 		[Reactive]
@@ -48,11 +50,14 @@
 		public MainViewModel(
 			IRouter router,
 			IConnectionRepository connectionRepo,
-			IImageProvider backgroundProvider
+			IImageProvider backgroundProvider,
+			DefaultConnectionEndPointActionHandler? defaultConnectionEndPointActionHandler,
+			RdpFileConnectionEndPointActionHandler? rdpFileConnectionEndPointActionHandler
 		) {
-			this.router = router;
 			this.connectionRepo = connectionRepo;
 			this.backgroundProvider = backgroundProvider;
+			this.defaultConnectionEndPointActionHandler = defaultConnectionEndPointActionHandler;
+			this.rdpFileConnectionEndPointActionHandler = rdpFileConnectionEndPointActionHandler;
 
 			this.AddConnectionCommand = ReactiveCommand.Create(this.AddRdpConnection);
 			this.RefreshConnectionsCommand = ReactiveCommand.Create(this.RefreshConnections);
@@ -89,8 +94,8 @@
 
 			var result = endPoint switch {
 
-				RdpFileConnectionEndPoint epRdp => new EndPointListItemViewModel(
-					router: this.router,
+				RdpFileConnectionEndPoint epRdp when this.rdpFileConnectionEndPointActionHandler != null => new EndPointListItemViewModel(
+					connectionActionHandler: this.rdpFileConnectionEndPointActionHandler,
 					endPoint: endPoint,
 					extendedInfo: epRdp.FullAddress,
 					extendedEdits: [
@@ -107,14 +112,17 @@
 					isPinned: epRdp.IsPinned
 				),
 
-				_ => new EndPointListItemViewModel(
-					router: this.router,
-					endPoint: endPoint,
-					extendedInfo: "",
-					extendedEdits: [],
-					backgroundImage: this.backgroundProvider.Fetch(endPoint.BackgroundImageName),
-					isPinned: endPoint.IsPinned
-				),
+				_ when this.defaultConnectionEndPointActionHandler != null =>
+					new EndPointListItemViewModel(
+						connectionActionHandler: this.defaultConnectionEndPointActionHandler,
+						endPoint: endPoint,
+						extendedInfo: "",
+						extendedEdits: [],
+						backgroundImage: this.backgroundProvider.Fetch(endPoint.BackgroundImageName),
+						isPinned: endPoint.IsPinned
+					),
+
+				_ => throw new NotSupportedException($"Connection type {endPoint.GetType().Name} is not supported.")
 			};
 
 			return result;
@@ -224,23 +232,31 @@
 					: null
 			);
 
-			//this.ConnectionEndPoints.Insert(0, this.BuildEndPointListItemViewModel(con));
+			if (con is RdpFileConnectionEndPoint && this.rdpFileConnectionEndPointActionHandler != null) {
+				this.rdpFileConnectionEndPointActionHandler.Edit(
+					editType: ConnectionEditTypes.Extended,
+					endPoint: con,
+					onCompleteAction: () => {
+						// edit the connection with default editor
 
-			this.router.Edit(
-				editType: ConnectionEditTypes.Extended,
-				endPoint: con,
-				onCompleteAction: () => {
-					// edit the connection with default editor
-
-					// find con again by id
-					var editedCon = this.allConnections.FirstOrDefault(x => x.Id == con.Id);
-					if (editedCon == null) {
-						return;
+						// find con again by id
+						var editedCon = this.allConnections.FirstOrDefault(x => x.Id == con.Id);
+						if (editedCon == null) {
+							return;
+						}
+						var editedConVm = this.BuildEndPointListItemViewModel(editedCon);
+						editedConVm.EditCommand.Execute(null);
 					}
-					var editedConVm = this.BuildEndPointListItemViewModel(editedCon);
-					editedConVm.EditCommand.Execute(null);
-				}
+				);
+				return;
+			}
+
+			this.defaultConnectionEndPointActionHandler?.Edit(
+				editType: ConnectionEditTypes.InApp,
+				endPoint: con,
+				onCompleteAction: null
 			);
+
 		}
 
 		public void TryConnectByNumber(int number) {

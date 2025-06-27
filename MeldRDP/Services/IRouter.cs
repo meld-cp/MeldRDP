@@ -5,15 +5,19 @@
 	using MeldRDP.ViewModels;
 
 	public interface IRouter {
-		void Connect(IConnectionEndPoint endPoint);
-		void Edit(
-			string editType,
+		Action? RunOnMainThread(Action? action);
+
+		void OpenInAppEditor(
 			IConnectionEndPoint endPoint,
-			Action? onCompleteAction
+			Action? onCompleteAction = null
 		);
-		void SetPinned(IConnectionEndPoint endPoint, bool isPinned);
+
+		void OpenTextEditor(
+			string filepath,
+			Action? onEditingCompleteAction
+		);
+
 		void OpenSupportTheDevLink();
 		void ShowMessage(MessageWindowViewModel vm);
 	}
-
 }

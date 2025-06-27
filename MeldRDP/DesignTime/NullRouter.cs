@@ -6,34 +6,25 @@
 	using MeldRDP.ViewModels;
 
 	public class NullRouter : IRouter {
-		public void Connect(IConnectionEndPoint endPoint) {
-		}
 
-		public void Edit(
-			string editType,
-			IConnectionEndPoint endPoint,
-			Action? onCompleteAction
-		) {
-		}
+		public void OpenInAppEditor(IConnectionEndPoint endPoint, Action? onCompleteAction = null) {
 
-		public void Edit(string editType, IConnectionEndPoint endPoint) {
-			throw new NotImplementedException();
 		}
 
 		public void OpenSupportTheDevLink() {
 
 		}
 
-		public void SetPinned(IConnectionEndPoint endPoint, bool isPinned) {
-			
+		public void OpenTextEditor(string filepath, Action? onEditingCompleteAction) {
+
+		}
+
+		public Action? RunOnMainThread(Action? action) {
+			return action;
 		}
 
 		public void ShowMessage(MessageWindowViewModel vm) {
 
-		}
-
-		public void TogglePinned(IConnectionEndPoint endPoint) {
-			
 		}
 	};
 }
