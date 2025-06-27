@@ -4,5 +4,6 @@
 		string Name { get; }
 		string Group { get; }
 		string? BackgroundImageName { get; }
+		bool IsPinned { get; }
 	};
 }

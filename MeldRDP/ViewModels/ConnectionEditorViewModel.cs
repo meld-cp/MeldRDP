@@ -26,6 +26,10 @@
 		[Reactive]
 		public Bitmap? BackgroundSource { get; set; }
 
+		[Reactive]
+		public bool IsPinned { get; set; }
+
+
 		public ConnectionEditorViewModel(IConnectionEndPoint endpoint, IImageProvider backgroundImageProvider) {
 			this.Id = endpoint.Id;
 			this.Name = endpoint.Name;

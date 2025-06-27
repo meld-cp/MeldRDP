@@ -9,6 +9,8 @@
 
 	public class FolderRepository : BasePathService, IConnectionRepository {
 
+		public event EventHandler? ConnectionsChanged;
+
 		public FolderRepository(string basePath) : base(basePath) {
 
 		}
@@ -54,6 +56,7 @@
 			rdpFile.SetValue(KnownRdpFormatKeys.Meld.Name, rdpEndPoint.Name);
 			rdpFile.SetValue(KnownRdpFormatKeys.Meld.Group, rdpEndPoint.Group);
 			rdpFile.SetValue(KnownRdpFormatKeys.Meld.BackgroundImageName, rdpEndPoint.BackgroundImageName);
+			rdpFile.SetValue(KnownRdpFormatKeys.Meld.IsPinned, rdpEndPoint.IsPinned ? 1 : 0);
 
 			rdpFile.SetValue(KnownRdpFormatKeys.Ex.EnableMouseJiggler, rdpEndPoint.EnableMouseJiggler ? 1 : 0);
 			rdpFile.SetValue(KnownRdpFormatKeys.Ex.AllowBackgroundInput, rdpEndPoint.EnableMouseJiggler ? 1 : 0);
@@ -70,6 +73,7 @@
 
 			rdpFile.SaveAs(destPath);
 
+			this.ConnectionsChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		private (int? SelectedMonitorsFromId, int? SelectedMonitorsSpanCount) DecodeSelectedMonitors(string? rdpFileSelectedMonitorsValue) {
@@ -128,6 +132,7 @@
 				RdpFilepath: rdpFile.Path,
 				Group: rdpFile.GetStringValue(KnownRdpFormatKeys.Meld.Group) ?? "",
 				BackgroundImageName: rdpFile.GetStringValue(KnownRdpFormatKeys.Meld.BackgroundImageName),
+				IsPinned: rdpFile.GetIntValue(KnownRdpFormatKeys.Meld.IsPinned) == 1,
 
 				EnableMouseJiggler: rdpFile.GetIntValue(KnownRdpFormatKeys.Ex.EnableMouseJiggler) == 1,
 				MouseJigglerInterval: rdpFile.GetIntValue(KnownRdpFormatKeys.Ex.MouseJigglerInterval),
@@ -180,6 +185,7 @@
 			if (File.Exists(destPath)) {
 				File.Delete(destPath);
 			}
+			this.ConnectionsChanged?.Invoke(this, EventArgs.Empty);
 		}
 
 		public ConnectionGroup[] FetchAllGroups() {
@@ -191,7 +197,9 @@
 			];
 		}
 
-
+		public void NotifyConnectionsChanged() {
+			this.ConnectionsChanged?.Invoke(this, EventArgs.Empty);
+		}
 	}
 
 }

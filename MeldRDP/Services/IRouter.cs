@@ -9,8 +9,9 @@
 		void Edit(
 			string editType,
 			IConnectionEndPoint endPoint,
-			Action? OnEditingCompleteAction
+			Action? onCompleteAction
 		);
+		void SetPinned(IConnectionEndPoint endPoint, bool isPinned);
 		void OpenSupportTheDevLink();
 		void ShowMessage(MessageWindowViewModel vm);
 	}

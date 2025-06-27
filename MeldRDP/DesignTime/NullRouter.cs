@@ -12,16 +12,28 @@
 		public void Edit(
 			string editType,
 			IConnectionEndPoint endPoint,
-			Action? OnEditingCompleteAction
+			Action? onCompleteAction
 		) {
+		}
+
+		public void Edit(string editType, IConnectionEndPoint endPoint) {
+			throw new NotImplementedException();
 		}
 
 		public void OpenSupportTheDevLink() {
 
 		}
 
+		public void SetPinned(IConnectionEndPoint endPoint, bool isPinned) {
+			
+		}
+
 		public void ShowMessage(MessageWindowViewModel vm) {
 
+		}
+
+		public void TogglePinned(IConnectionEndPoint endPoint) {
+			
 		}
 	};
 }

@@ -56,11 +56,13 @@
 			public const string Name = "MeldName";
 			public const string Group = "MeldGroup";
 			public const string BackgroundImageName = "MeldBackgroundImageName";
+			public const string IsPinned = "MeldIsPinned";
 
 			public static readonly string[] All = [
 				Name,
 				Group,
-				BackgroundImageName
+				BackgroundImageName,
+				IsPinned
 			];
 		}
 	}

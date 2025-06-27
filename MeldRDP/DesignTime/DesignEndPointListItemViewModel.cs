@@ -1,4 +1,6 @@
 ﻿namespace MeldRDP.DesignTime {
+	using System;
+
 	using MeldRDP.Models;
 	using MeldRDP.ViewModels;
 
@@ -9,7 +11,7 @@
 			extendedInfo: "Extended Info",
 			extendedEdits: [new("Extended", ""), new("Text Editor", "")],
 			backgroundImage: null,
-			OnEditingCompleteAction: null
+			isPinned: Random.Shared.Next(0,1)==1
 		) {
 			this.Name = "Design End Point";
 		}

@@ -8,6 +8,7 @@
 		public string Name { get; } = "Connection Name";
 		public string Group { get; } = "Group Name";
 		public string? BackgroundImageName { get; }
+		public bool IsPinned { get; set; }
 	}
 
 

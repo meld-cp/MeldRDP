@@ -22,6 +22,7 @@
 				RdpFilepath: rdpFilePath,
 				Group: group?.Name ?? "",
 				BackgroundImageName: null,
+				IsPinned: false,
 				EnableMouseJiggler: false,
 				MouseJigglerInterval: null
 			);

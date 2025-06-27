@@ -6,6 +6,7 @@
 		string RdpFilepath,
 		string Group,
 		string? BackgroundImageName,
+		bool IsPinned,
 		bool EnableMouseJiggler = false,
 		int? MouseJigglerInterval = null,
 		int? SelectedMonitorsFromId = null,

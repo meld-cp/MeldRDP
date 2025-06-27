@@ -6,6 +6,8 @@
 	using MeldRDP.Services;
 
 	public class DesignConnectionRepository : IConnectionRepository {
+		public event EventHandler? ConnectionsChanged;
+
 		public IConnectionEndPoint Create(string name, ConnectionGroup? group) {
 			throw new NotImplementedException();
 		}
@@ -40,7 +42,9 @@
 			return [.. Enumerable.Range(1, 10).Select(num => new ConnectionGroup(ConnectionGroupType.Custom, $"Group {num}"))];
 		}
 
-
+		public void NotifyConnectionsChanged() {
+			
+		}
 	};
 
 

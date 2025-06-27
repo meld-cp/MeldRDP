@@ -64,7 +64,7 @@
 		public void Edit(
 			string editType,
 			IConnectionEndPoint endPoint,
-			Action? OnEditingCompleteAction
+			Action? onCompleteAction = null
 		) {
 
 			switch (editType) {
@@ -74,11 +74,10 @@
 						DataContext = new ConnectionEditorWindowViewModel(this.connRepo, endPoint, this.imageProvider)
 					};
 
-					if (OnEditingCompleteAction != null) {
-						editWindow.Closed += (sender, args) => {
-							OnEditingCompleteAction?.Invoke();
-						};
-					}
+					editWindow.Closed += (sender, args) => {
+						//this.RequestRefreshConnections();
+						onCompleteAction?.Invoke();
+					};
 
 					this.ShowWindowWithOwner(editWindow);
 					return;
@@ -88,7 +87,10 @@
 						if (endPoint is RdpFileConnectionEndPoint epRdp) {
 							this.srvRdp.EditRdpFile(
 								path: epRdp.RdpFilepath,
-								OnExitAction: this.RunOnMainThread(OnEditingCompleteAction)
+								OnExitAction: this.RunOnMainThread(() => {
+									this.RequestRefreshConnections();
+									onCompleteAction?.Invoke();
+								})
 							);
 							return;
 						}
@@ -98,7 +100,13 @@
 
 				case ConnectionEditTypes.TextEditor: {
 						if (endPoint is RdpFileConnectionEndPoint epRdp) {
-							this.OpenTextEditor(epRdp.RdpFilepath, this.RunOnMainThread(OnEditingCompleteAction));
+							this.OpenTextEditor(
+								filepath: epRdp.RdpFilepath,
+								onEditingCompleteAction: this.RunOnMainThread(() => {
+									this.RequestRefreshConnections();
+									onCompleteAction?.Invoke();
+								})
+							);
 							return;
 						}
 
@@ -109,6 +117,10 @@
 
 			throw new NotImplementedException($"Edit type '{editType}' not implemented for '{endPoint.GetType().Name}'");
 
+		}
+
+		private void RequestRefreshConnections() {
+			this.connRepo.NotifyConnectionsChanged();
 		}
 
 		private void OpenTextEditor(string filepath, Action? onEditingCompleteAction) {
@@ -134,6 +146,18 @@
 				UseShellExecute = true,
 				FileName = "https://buymeacoffee.com/cleon"
 			});
+		}
+
+		public void SetPinned(IConnectionEndPoint endPoint, bool isPinned) {
+			if (endPoint is RdpFileConnectionEndPoint epRdp) {
+			
+				this.connRepo.Save(
+					epRdp with {
+						IsPinned = isPinned
+					}
+				);
+			}
+
 		}
 	}
 }

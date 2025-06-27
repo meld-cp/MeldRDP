@@ -61,6 +61,10 @@
 			// add an [All] group
 			this.EndPointGroups.Add(new(ConnectionGroupType.Everything, name: "[All]"));
 
+			this.connectionRepo.ConnectionsChanged += (sender, args) => {
+				// refresh connections when the repository changes
+				this.RefreshConnections();
+			};
 
 			this.WhenActivated((CompositeDisposable disposables) => {
 
@@ -83,8 +87,9 @@
 
 		private EndPointListItemViewModel BuildEndPointListItemViewModel(IConnectionEndPoint endPoint) {
 
-			if (endPoint is RdpFileConnectionEndPoint epRdp) {
-				return new EndPointListItemViewModel(
+			var result = endPoint switch {
+
+				RdpFileConnectionEndPoint epRdp => new EndPointListItemViewModel(
 					router: this.router,
 					endPoint: endPoint,
 					extendedInfo: epRdp.FullAddress,
@@ -99,18 +104,20 @@
 						)
 					],
 					backgroundImage: this.backgroundProvider.Fetch(endPoint.BackgroundImageName),
-					OnEditingCompleteAction: this.RefreshConnections
-				);
-			}
+					isPinned: epRdp.IsPinned
+				),
 
-			return new EndPointListItemViewModel(
-				router: this.router,
-				endPoint: endPoint,
-				extendedInfo: "",
-				extendedEdits: [],
-				backgroundImage: this.backgroundProvider.Fetch(endPoint.BackgroundImageName),
-				OnEditingCompleteAction: this.RefreshConnections
-			);
+				_ => new EndPointListItemViewModel(
+					router: this.router,
+					endPoint: endPoint,
+					extendedInfo: "",
+					extendedEdits: [],
+					backgroundImage: this.backgroundProvider.Fetch(endPoint.BackgroundImageName),
+					isPinned: endPoint.IsPinned
+				),
+			};
+
+			return result;
 		}
 
 		public void RefreshConnections() {
@@ -193,6 +200,8 @@
 					|| c.Group.Contains(this.SearchText, StringComparison.InvariantCultureIgnoreCase)
 					|| c.Id.Contains(this.SearchText, StringComparison.InvariantCultureIgnoreCase)
 				)
+				.OrderBy(c => c.IsPinned ? 0 : 1)
+				.ThenBy(c => c.Name)
 				.ToArray()
 			;
 
@@ -215,16 +224,13 @@
 					: null
 			);
 
-			this.ConnectionEndPoints.Insert(0, this.BuildEndPointListItemViewModel(con));
+			//this.ConnectionEndPoints.Insert(0, this.BuildEndPointListItemViewModel(con));
 
 			this.router.Edit(
 				editType: ConnectionEditTypes.Extended,
 				endPoint: con,
-				OnEditingCompleteAction: () => {
-					// refresh connections after editing
-					this.RefreshConnections();
-
-					// non-extended edit the connection
+				onCompleteAction: () => {
+					// edit the connection with default editor
 
 					// find con again by id
 					var editedCon = this.allConnections.FirstOrDefault(x => x.Id == con.Id);
